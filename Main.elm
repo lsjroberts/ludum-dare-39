@@ -45,6 +45,7 @@ type alias Model =
     , beerUsageTimer : Int
     , storyKey : String
     , storyTimer : Maybe Int
+    , storyDescriptionTimer : Maybe Int
     , storyHasDrunkBeer : Bool
     , storyHasMessage : Bool
     }
@@ -63,6 +64,7 @@ init =
         "arriveAtParty"
         -- "enterParty"
         -- "messageFromSimon"
+        Nothing
         Nothing
         False
         False
@@ -122,13 +124,13 @@ view model =
             toString (floor (min + ((start - min) * energyRatio)))
 
         radialCenterR =
-            "255"
+            scaleColour 241 255
 
         radialCenterG =
-            scaleColour 193 255
+            scaleColour 94 255
 
         radialCenterB =
-            scaleColour 193 255
+            scaleColour 81 255
 
         radialCenterA =
             toString (1 - ((1 - 0.47) * energyRatio))
@@ -191,7 +193,7 @@ view model =
             , viewPhoneBattery model.phoneBattery
             , viewPhoneMessageIndicator
             , viewPhoneClock model.time
-            , viewStoryDescription storyBeat
+            , viewStoryDescription model.storyDescriptionTimer storyBeat
             ]
 
 
@@ -510,22 +512,34 @@ buttonStyle =
     ]
 
 
-viewStoryDescription : StoryBeat -> Html Msg
-viewStoryDescription storyBeat =
+viewStoryDescription : Maybe Int -> StoryBeat -> Html Msg
+viewStoryDescription maybeDescriptionTimer storyBeat =
     let
         description =
             storyBeat.description |> String.split "\n" |> List.map (\t -> p [] [ text t ])
+
+        bottom =
+            case maybeDescriptionTimer of
+                Just timer ->
+                    if timer > 0 then
+                        "0"
+                    else
+                        "-20vh"
+
+                Nothing ->
+                    "0"
     in
         div
             [ style
                 [ ( "position", "absolute" )
-                , ( "bottom", "0" )
+                , ( "bottom", bottom )
                 , ( "width", "100%" )
                 , ( "background", "#111111" )
                 , ( "padding", "6vh 4vw" )
                 , ( "font-size", "3vh" )
                 , ( "line-height", "1.4" )
                 , ( "color", "#cbd0da" )
+                , ( "transition", "bottom 0.3s linear" )
                 ]
             ]
         <|
@@ -623,6 +637,14 @@ update msg model =
 
                         Nothing ->
                             Nothing
+
+                storyDescriptionTimer =
+                    case model.storyDescriptionTimer of
+                        Just timer ->
+                            Just (timer - 1)
+
+                        Nothing ->
+                            Nothing
             in
                 { model
                     | energy = energy
@@ -630,6 +652,7 @@ update msg model =
                     , phoneUsageTimer = phoneUsageTimer
                     , beerUsageTimer = beerUsageTimer
                     , storyTimer = storyTimer
+                    , storyDescriptionTimer = storyDescriptionTimer
                 }
 
         TickMinute time ->
@@ -689,10 +712,19 @@ update msg model =
 
                         Nothing ->
                             Nothing
+
+                storyDescriptionTimer =
+                    case maybeStoryBeat of
+                        Just beat ->
+                            beat.clearDescriptionAfter
+
+                        Nothing ->
+                            Nothing
             in
                 { model
                     | storyKey = storyKey
                     , storyTimer = storyTimer
+                    , storyDescriptionTimer = storyDescriptionTimer
                 }
 
 
@@ -705,7 +737,7 @@ subscriptions model =
     Sub.batch
         [ every
             (if debug then
-                millisecond * 20
+                millisecond
              else
                 second
             )
@@ -720,6 +752,7 @@ subscriptions model =
 
 type alias StoryBeat =
     { description : String
+    , clearDescriptionAfter : Maybe Int
     , actions : List ( String, String )
     , timeUntil : Maybe ( Int, String )
     , canUsePhone : Bool
@@ -752,6 +785,7 @@ story =
 defaultStoryBeat : StoryBeat
 defaultStoryBeat =
     StoryBeat ""
+        Nothing
         []
         Nothing
         False
@@ -767,6 +801,11 @@ defaultStoryBeat =
 withDescription : String -> StoryBeat -> StoryBeat
 withDescription description beat =
     { beat | description = description }
+
+
+withClearDescriptionAfter : Int -> StoryBeat -> StoryBeat
+withClearDescriptionAfter time beat =
+    { beat | clearDescriptionAfter = Just time }
 
 
 withActions : List ( String, String ) -> StoryBeat -> StoryBeat
@@ -868,6 +907,7 @@ drinkBeerFirstTime =
                 ++ "someone new. Or so you tell yourself."
             )
         |> withTimeUntil 19 "weirdCarpet"
+        |> withClearDescriptionAfter 13
         |> withCanUsePhone
         |> withCanDrinkBeer
     )
@@ -878,6 +918,7 @@ weirdCarpet =
     ( "weirdCarpet"
     , defaultStoryBeat
         |> withDescription "That carpet is weird. And pretty disgusting."
+        |> withClearDescriptionAfter 4
         |> withCanUsePhone
         |> withCanDrinkBeer
         |> withTimeUntil 15 "messageFromSimon"
@@ -901,6 +942,7 @@ yeahMateFine =
     ( "yeahMateFine"
     , defaultStoryBeat
         |> withDescription "\"Cool cool, btw we'll probably head off about 2am\""
+        |> withClearDescriptionAfter 4
         |> withCanUsePhone
         |> withCanDrinkBeer
     )
@@ -910,7 +952,8 @@ askHowLong : ( String, StoryBeat )
 askHowLong =
     ( "askHowLong"
     , defaultStoryBeat
-        |> withDescription "\"Err, 2am probs\""
+        |> withDescription "\"Err, till 2am probs\""
+        |> withClearDescriptionAfter 4
         |> withCanUsePhone
         |> withCanDrinkBeer
     )
