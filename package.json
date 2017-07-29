@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "elm-live Main.elm --output app/elm.js --open",
-    "compile": "elm make Main.elm --output app/elm.js || true",
+    "start": "elm-live Main.elm --output elm.js --open",
+    "compile": "elm make Main.elm --output elm.js || true",
     "cloc": "cloc --exclude-dir=$(tr '\\n' ',' < .clocignore) ."
   },
   "dependencies": {

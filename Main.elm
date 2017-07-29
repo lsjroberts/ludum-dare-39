@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Debug
 import Dict exposing (Dict)
@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Maybe.Extra
 import Octicons as Icon
+import Random
 import Svg
 import Svg.Attributes
 import Time exposing (..)
@@ -26,7 +27,7 @@ main =
     program
         { init = init
         , view = view
-        , update = updateWithStoryTimer
+        , update = updateWithCmds
         , subscriptions = subscriptions
         }
 
@@ -43,6 +44,7 @@ type alias Model =
     , phoneUsageTimer : Int
     , drunkenness : Int
     , beerUsageTimer : Int
+    , danceOffset : Float
     , storyKey : String
     , storyTimer : Maybe Int
     , storyDescriptionTimer : Maybe Int
@@ -55,16 +57,17 @@ init : ( Model, Cmd Msg )
 init =
     ( Model
         maxEnergy
-        100
+        80
         0
         90
         0
         0
         0
+        0
         "arriveAtParty"
-        -- "enterParty"
-        -- "messageFromSimon"
+        -- "mehmetIntroducesHimself"
         Nothing
+        -- (Just 0)
         Nothing
         False
         False
@@ -89,7 +92,12 @@ hourFinish =
 
 maxEnergy : Int
 maxEnergy =
-    500
+    ((hourFinish - hourStart) * 60 |> toFloat) * minutesPerSecond |> floor
+
+
+maxConfidence : Int
+maxConfidence =
+    100
 
 
 getStoryBeat : String -> Maybe StoryBeat
@@ -112,40 +120,43 @@ view model =
                 Nothing ->
                     Debug.crash ("Tried to load an invalid story beat — " ++ model.storyKey)
 
+        confidenceRatio =
+            (toFloat model.confidence) / (toFloat maxConfidence)
+
         energyRatio =
             (toFloat model.energy) / (toFloat maxEnergy)
 
-        scaleColour : Float -> Float -> String
-        scaleColour start max =
-            toString (floor (max - ((max - start) * energyRatio)))
+        scaleColourConfidence : Float -> Float -> String
+        scaleColourConfidence start max =
+            toString (floor (max - ((max - start) * confidenceRatio)))
 
-        scaleColourDown : Float -> Float -> String
-        scaleColourDown start min =
+        scaleColourEnergy : Float -> Float -> String
+        scaleColourEnergy start min =
             toString (floor (min + ((start - min) * energyRatio)))
 
         radialCenterR =
-            scaleColour 241 255
+            scaleColourConfidence 241 255
 
         radialCenterG =
-            scaleColour 94 255
+            scaleColourConfidence 94 255
 
         radialCenterB =
-            scaleColour 81 255
+            scaleColourConfidence 81 255
 
         radialCenterA =
-            toString (1 - ((1 - 0.47) * energyRatio))
+            toString (1 - ((1 - 0.47) * confidenceRatio))
 
         radialCenterRGBA =
             radialCenterR ++ "," ++ radialCenterG ++ "," ++ radialCenterB ++ "," ++ radialCenterA
 
         radialOuterR =
-            scaleColourDown 70 0
+            scaleColourEnergy 70 0
 
         radialOuterG =
-            scaleColourDown 60 0
+            scaleColourEnergy 60 0
 
         radialOuterB =
-            scaleColourDown 60 0
+            scaleColourEnergy 60 0
 
         radialOuterA =
             toString (1 - ((1 - 0.47) * energyRatio))
@@ -182,11 +193,11 @@ view model =
             , viewConfidenceMeter model.confidence
             , viewDrunkenness model.drunkenness
             , viewPlayer model.energy storyBeat
-            , viewSimon storyBeat
-            , viewAnna storyBeat
-            , viewPolly storyBeat
-            , viewMehmet storyBeat
-            , viewBackgroundPeople
+            , viewSimon model.danceOffset storyBeat
+            , viewAnna model.danceOffset storyBeat
+            , viewPolly model.danceOffset storyBeat
+            , viewMehmet model.danceOffset storyBeat
+            , viewBackgroundPeople model.danceOffset
             , viewPartyLights model.time
             , viewPhone model.phoneUsageTimer storyBeat
             , viewBeer model.beerUsageTimer storyBeat
@@ -305,84 +316,111 @@ viewDrunkenness drunkenness =
 
 viewPlayer : Int -> StoryBeat -> Html Msg
 viewPlayer energy storyBeat =
-    viewPerson 0
-        [ ( "bottom", (energy |> floorHeight |> (+) -3 |> toString) ++ "vh" )
-        , ( "left", (toString storyBeat.playerPosition) ++ "vw" )
-        , ( "background", "#000000" )
-        ]
+    let
+        ( x, customY ) =
+            storyBeat.playerPosition
+
+        y =
+            if customY == 0 then
+                energy |> floorHeight |> floor |> (+) -3
+            else
+                customY
+    in
+        viewPerson 0
+            0
+            [ ( "bottom", (toString y) ++ "vh" )
+            , ( "left", (toString x) ++ "vw" )
+            , ( "background", "#000000" )
+            ]
 
 
-viewSimon : StoryBeat -> Html Msg
-viewSimon storyBeat =
+viewSimon : Float -> StoryBeat -> Html Msg
+viewSimon danceOffset storyBeat =
     let
         ( x, y ) =
             storyBeat.simonPosition
     in
         viewPerson 0.8
+            danceOffset
             [ ( "bottom", (toString y) ++ "vh" )
             , ( "left", (toString x) ++ "vw" )
             , ( "background", "#42B859" )
             ]
 
 
-viewAnna : StoryBeat -> Html Msg
-viewAnna storyBeat =
-    viewPerson 0.3
-        [ ( "bottom", "13vh" )
-        , ( "left", "56vw" )
-        , ( "background", "#B8B442" )
-        ]
+viewAnna : Float -> StoryBeat -> Html Msg
+viewAnna danceOffset storyBeat =
+    let
+        ( x, y ) =
+            storyBeat.annaPosition
+    in
+        viewPerson -0.3
+            danceOffset
+            [ ( "bottom", (toString y) ++ "vh" )
+            , ( "left", (toString x) ++ "vw" )
+            , ( "background", "#B8B442" )
+            ]
 
 
-viewMehmet : StoryBeat -> Html Msg
-viewMehmet storyBeat =
-    viewPerson 0.4
-        [ ( "bottom", "7vh" )
-        , ( "left", "62vw" )
-        , ( "background", "#B44A3F" )
-        ]
+viewMehmet : Float -> StoryBeat -> Html Msg
+viewMehmet danceOffset storyBeat =
+    let
+        ( x, y ) =
+            storyBeat.mehmetPosition
+    in
+        viewPerson -0.4
+            danceOffset
+            [ ( "bottom", (toString y) ++ "vh" )
+            , ( "left", (toString x) ++ "vw" )
+            , ( "background", "#B44A3F" )
+            ]
 
 
-viewPolly : StoryBeat -> Html Msg
-viewPolly storyBeat =
+viewPolly : Float -> StoryBeat -> Html Msg
+viewPolly danceOffset storyBeat =
     viewPerson 0.9
+        danceOffset
         [ ( "bottom", "12vh" )
         , ( "left", "69vw" )
         , ( "background", "#9C31CC" )
         ]
 
 
-viewBackgroundPeople : Html Msg
-viewBackgroundPeople =
+viewBackgroundPeople : Float -> Html Msg
+viewBackgroundPeople danceOffset =
     div []
-        [ viewPerson 0.2 [ ( "bottom", "8vh" ), ( "left", "-3vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.2 [ ( "bottom", "5vh" ), ( "left", "-6vw" ) ]
-        , viewPerson 0.1 [ ( "bottom", "10vh" ), ( "left", "19vw" ), ( "background", "#555" ) ]
-        , viewPerson 0.2 [ ( "bottom", "12vh" ), ( "left", "10vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.1 [ ( "bottom", "6vh" ), ( "left", "14vw" ) ]
-        , viewPerson 0.1 [ ( "bottom", "1vh" ), ( "left", "38vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.2 [ ( "bottom", "-1vh" ), ( "left", "28vw" ), ( "background", "#555" ) ]
-        , viewPerson 0.1 [ ( "bottom", "-3vh" ), ( "left", "30vw" ) ]
-        , viewPerson 0.2 [ ( "bottom", "16vh" ), ( "left", "88vw" ), ( "background", "#222" ) ]
-        , viewPerson 0.1 [ ( "bottom", "14vh" ), ( "left", "92vw" ), ( "background", "#333" ) ]
-        , viewPerson 0.1 [ ( "bottom", "7vh" ), ( "left", "81vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.2 [ ( "bottom", "4vh" ), ( "left", "87vw" ), ( "background", "#555" ) ]
+        [ viewPerson 0.2 danceOffset [ ( "bottom", "8vh" ), ( "left", "-3vw" ), ( "background", "#444" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "5vh" ), ( "left", "-6vw" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "10vh" ), ( "left", "19vw" ), ( "background", "#555" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "12vh" ), ( "left", "10vw" ), ( "background", "#444" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "6vh" ), ( "left", "14vw" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "1vh" ), ( "left", "38vw" ), ( "background", "#444" ) ]
+        , viewPerson 0.2 danceOffset [ ( "bottom", "-1vh" ), ( "left", "28vw" ), ( "background", "#555" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "-3vh" ), ( "left", "30vw" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "16vh" ), ( "left", "88vw" ), ( "background", "#222" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "14vh" ), ( "left", "92vw" ), ( "background", "#333" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "7vh" ), ( "left", "81vw" ), ( "background", "#444" ) ]
+        , viewPerson 0.2 danceOffset [ ( "bottom", "4vh" ), ( "left", "87vw" ), ( "background", "#555" ) ]
         ]
 
 
-viewPerson : Float -> List ( String, String ) -> Html Msg
-viewPerson jiggle styles =
-    div
-        [ style <|
-            [ ( "position", "absolute" )
-            , ( "height", "25vh" )
-            , ( "width", "8vw" )
-            , ( "background", "#666" )
-            , ( "transition", "left 1s linear, bottom 0.2s linear" )
+viewPerson : Float -> Float -> List ( String, String ) -> Html Msg
+viewPerson danceAmount danceOffset styles =
+    let
+        height =
+            toString (25 + (danceAmount * danceOffset * 5))
+    in
+        div
+            [ style <|
+                [ ( "position", "absolute" )
+                , ( "height", height ++ "vh" )
+                , ( "width", "8vw" )
+                , ( "background", "#666" )
+                , ( "transition", "left 1s linear, bottom 1s linear, height 0.2s linear" )
+                ]
+                    ++ styles
             ]
-                ++ styles
-        ]
-        []
+            []
 
 
 viewPartyLights : Float -> Html Msg
@@ -519,15 +557,18 @@ viewStoryDescription maybeDescriptionTimer storyBeat =
             storyBeat.description |> String.split "\n" |> List.map (\t -> p [] [ text t ])
 
         bottom =
-            case maybeDescriptionTimer of
-                Just timer ->
-                    if timer > 0 then
-                        "0"
-                    else
-                        "-20vh"
+            if String.length storyBeat.description > 0 then
+                case maybeDescriptionTimer of
+                    Just timer ->
+                        if timer > 0 then
+                            "0"
+                        else
+                            "-20vh"
 
-                Nothing ->
-                    "0"
+                    Nothing ->
+                        "0"
+            else
+                "-20vh"
     in
         div
             [ style
@@ -578,12 +619,32 @@ floorHeight energy =
 type Msg
     = Tick Time
     | TickMinute Time
+    | TickConfidence Time
+    | TickDance Time
     | UsePhone
     | DrinkBeer
     | GoToStoryBeat String
+    | UpdateDanceOffset Float
 
 
-updateWithStoryTimer : Msg -> Model -> ( Model, Cmd Msg )
+updateWithCmds : Msg -> Model -> ( Model, Cmd Msg )
+updateWithCmds msg model =
+    let
+        newModel =
+            updateWithStoryTimer msg model
+    in
+        case msg of
+            TickDance time ->
+                ( newModel, Random.generate UpdateDanceOffset (Random.float 0 1) )
+
+            UsePhone ->
+                ( newModel, playMessagingSound () )
+
+            _ ->
+                ( newModel, Cmd.none )
+
+
+updateWithStoryTimer : Msg -> Model -> Model
 updateWithStoryTimer msg model =
     let
         newModel =
@@ -604,7 +665,7 @@ updateWithStoryTimer msg model =
         applyNextStoryBeat ( _, nextStoryKey ) =
             update (GoToStoryBeat nextStoryKey) newModel
     in
-        ( unwrap applyStoryTimer newModel.storyTimer, Cmd.none )
+        unwrap applyStoryTimer newModel.storyTimer
 
 
 update : Msg -> Model -> Model
@@ -668,19 +729,32 @@ update msg model =
                     , phoneBattery = model.phoneBattery - 1
                 }
 
+        TickConfidence time ->
+            let
+                confidence =
+                    if model.confidence > 0 then
+                        model.confidence - 1
+                    else
+                        model.confidence
+            in
+                { model | confidence = confidence }
+
+        TickDance time ->
+            model
+
         UsePhone ->
             { model
                 | phoneBattery = model.phoneBattery - 1
-                , phoneUsageTimer = 3
+                , phoneUsageTimer = 6
             }
 
         DrinkBeer ->
             let
                 drunkIncrement =
-                    if model.drunkenness < 4 then
+                    if model.drunkenness < 2 then
                         1
                     else
-                        floor ((toFloat model.drunkenness) / 4.0)
+                        floor ((toFloat model.drunkenness) / 2.0)
 
                 newModel =
                     { model
@@ -727,6 +801,9 @@ update msg model =
                     , storyDescriptionTimer = storyDescriptionTimer
                 }
 
+        UpdateDanceOffset danceOffset ->
+            { model | danceOffset = danceOffset }
+
 
 
 -- SUBSCRPTIONS
@@ -743,7 +820,12 @@ subscriptions model =
             )
             Tick
         , every (second * 60) TickMinute
+        , every (second * 6) TickConfidence
+        , every (millisecond * 200) TickDance
         ]
+
+
+port playMessagingSound : () -> Cmd msg
 
 
 
@@ -758,28 +840,12 @@ type alias StoryBeat =
     , canUsePhone : Bool
     , phoneHasMessage : Bool
     , canDrinkBeer : Bool
-    , playerPosition : Int
+    , playerPosition : ( Int, Int )
     , simonPosition : ( Int, Int )
     , annaPosition : ( Int, Int )
     , mehmetPosition : ( Int, Int )
     , pollyPosition : ( Int, Int )
     }
-
-
-story : Dict String StoryBeat
-story =
-    Dict.fromList
-        [ arriveAtParty
-        , enterParty
-        , playWithPhone
-        , simonOffersBeer
-        , takeTheBeer
-        , drinkBeerFirstTime
-        , weirdCarpet
-        , messageFromSimon
-        , yeahMateFine
-        , askHowLong
-        ]
 
 
 defaultStoryBeat : StoryBeat
@@ -791,7 +857,7 @@ defaultStoryBeat =
         False
         False
         False
-        29
+        ( 29, 0 )
         ( 60, 18 )
         ( 56, 13 )
         ( 62, 7 )
@@ -828,14 +894,55 @@ withCanDrinkBeer beat =
     { beat | canDrinkBeer = True }
 
 
-withPlayerPosition : Int -> StoryBeat -> StoryBeat
-withPlayerPosition playerPosition beat =
-    { beat | playerPosition = playerPosition }
+withPlayerPosition : Int -> Int -> StoryBeat -> StoryBeat
+withPlayerPosition x y beat =
+    { beat | playerPosition = ( x, y ) }
 
 
 withSimonPosition : Int -> Int -> StoryBeat -> StoryBeat
 withSimonPosition x y beat =
     { beat | simonPosition = ( x, y ) }
+
+
+withAnnaPosition : Int -> Int -> StoryBeat -> StoryBeat
+withAnnaPosition x y beat =
+    { beat | annaPosition = ( x, y ) }
+
+
+withMehmetPosition : Int -> Int -> StoryBeat -> StoryBeat
+withMehmetPosition x y beat =
+    { beat | mehmetPosition = ( x, y ) }
+
+
+story : Dict String StoryBeat
+story =
+    Dict.fromList
+        [ arriveAtParty
+        , enterParty
+        , playWithPhone
+        , simonOffersBeer
+        , takeTheBeer
+        , drinkBeerFirstTime
+        , weirdCarpet
+        , messageFromSimon
+        , yeahMateFine
+        , askHowLong
+        , simonIntroducesAnna
+        , heyAnna
+        , ummAnna
+        , danceWithAnna
+        , tiredFromDancing
+        , keepDancing
+        , restFromDancing
+        , mehmetIntroducesHimself
+        , notMyThing
+        , yeahItsFun
+        , askForACarlsberg
+        , mehmetBringsCarlsberg
+        , askForARum
+        , comeBackWithRum
+        , turnDownDrink
+        ]
 
 
 arriveAtParty : ( String, StoryBeat )
@@ -848,7 +955,7 @@ arriveAtParty =
                 ++ "out of energy."
             )
         |> withActions [ ( "Go into the house", "enterParty" ) ]
-        |> withPlayerPosition 2
+        |> withPlayerPosition 2 24
     )
 
 
@@ -880,7 +987,7 @@ simonOffersBeer =
     , defaultStoryBeat
         |> withDescription "Your friend, Simon, comes over and offers you a beer."
         |> withActions [ ( "Take the beer", "takeTheBeer" ) ]
-        |> withSimonPosition 39 18
+        |> withSimonPosition 39 26
     )
 
 
@@ -893,7 +1000,7 @@ takeTheBeer =
                 ++ "up to your mouth and feel the coldness on your lips."
             )
         |> withCanDrinkBeer
-        |> withSimonPosition 39 18
+        |> withSimonPosition 39 26
     )
 
 
@@ -906,8 +1013,8 @@ drinkBeerFirstTime =
                 ++ "enough of this, and hey, you may work up the courage to talk to "
                 ++ "someone new. Or so you tell yourself."
             )
-        |> withTimeUntil 19 "weirdCarpet"
-        |> withClearDescriptionAfter 13
+        |> withTimeUntil 12 "weirdCarpet"
+        |> withClearDescriptionAfter 8
         |> withCanUsePhone
         |> withCanDrinkBeer
     )
@@ -917,11 +1024,14 @@ weirdCarpet : ( String, StoryBeat )
 weirdCarpet =
     ( "weirdCarpet"
     , defaultStoryBeat
-        |> withDescription "That carpet is weird. And pretty disgusting."
-        |> withClearDescriptionAfter 4
+        |> withDescription
+            ("The carpet squelches as you shift your balance. The decor in "
+                ++ " this place is weird. And pretty disgusting."
+            )
+        |> withClearDescriptionAfter 6
         |> withCanUsePhone
         |> withCanDrinkBeer
-        |> withTimeUntil 15 "messageFromSimon"
+        |> withTimeUntil 8 "messageFromSimon"
     )
 
 
@@ -929,7 +1039,7 @@ messageFromSimon : ( String, StoryBeat )
 messageFromSimon =
     ( "messageFromSimon"
     , defaultStoryBeat
-        |> withDescription "Simon sent you a WhatsApp, \"Hey mate, you alright over there?\""
+        |> withDescription "Simon sent you a message, \"Hey mate, you alright over there?\""
         |> withActions
             [ ( "\"Yeah mate fine :)\"", "yeahMateFine" )
             , ( "\"How long we gunna be here?\"", "askHowLong" )
@@ -943,6 +1053,7 @@ yeahMateFine =
     , defaultStoryBeat
         |> withDescription "\"Cool cool, btw we'll probably head off about 2am\""
         |> withClearDescriptionAfter 4
+        |> withTimeUntil 8 "simonIntroducesAnna"
         |> withCanUsePhone
         |> withCanDrinkBeer
     )
@@ -954,6 +1065,187 @@ askHowLong =
     , defaultStoryBeat
         |> withDescription "\"Err, till 2am probs\""
         |> withClearDescriptionAfter 4
+        |> withTimeUntil 12 "simonIntroducesAnna"
         |> withCanUsePhone
         |> withCanDrinkBeer
+    )
+
+
+simonIntroducesAnna : ( String, StoryBeat )
+simonIntroducesAnna =
+    ( "simonIntroducesAnna"
+    , defaultStoryBeat
+        |> withDescription
+            ("\"Bruv, this is Anna,\" says Simon. \"Anna, this is my friend "
+                ++ "I was telling you about.\""
+            )
+        |> withActions
+            [ ( "\"Hey Anna, alright?\"", "heyAnna" )
+            , ( "\"Umm, hi.\"", "ummAnna" )
+            ]
+        |> withSimonPosition 42 30
+        |> withAnnaPosition 39 26
+        |> withCanDrinkBeer
+    )
+
+
+heyAnna : ( String, StoryBeat )
+heyAnna =
+    ( "heyAnna"
+    , defaultStoryBeat
+        |> withDescription "\"I'm great thanks. This party is well fun. Why don't you come dance?\""
+        |> withActions
+            [ ( "\"Ok, why not.\"", "danceWithAnna" )
+            , ( "\"A bit later, perhaps.\"", "avoidDanceWithAnna" )
+            ]
+        |> withAnnaPosition 39 26
+        |> withCanDrinkBeer
+    )
+
+
+ummAnna : ( String, StoryBeat )
+ummAnna =
+    ( "ummAnna"
+    , defaultStoryBeat
+        |> withDescription "\"Hi, err, do you want to dance with us?\" she asks."
+        |> withActions
+            [ ( "nah", "nah" ) ]
+        |> withSimonPosition 42 30
+        |> withAnnaPosition 39 26
+        |> withCanDrinkBeer
+        |> withCanUsePhone
+    )
+
+
+danceWithAnna : ( String, StoryBeat )
+danceWithAnna =
+    ( "danceWithAnna"
+    , defaultStoryBeat
+        |> withCanDrinkBeer
+        |> withTimeUntil 8 "tiredFromDancing"
+        |> withPlayerPosition 58 18
+        |> withSimonPosition 68 16
+    )
+
+
+tiredFromDancing : ( String, StoryBeat )
+tiredFromDancing =
+    ( "tiredFromDancing"
+    , defaultStoryBeat
+        |> withDescription "You're getting pretty tired from this dancing."
+        |> withActions
+            [ ( "Keep dancing.", "keepDancing" )
+            , ( "Take a rest.", "restFromDancing" )
+            ]
+        |> withPlayerPosition 58 18
+        |> withSimonPosition 68 16
+    )
+
+
+keepDancing : ( String, StoryBeat )
+keepDancing =
+    ( "keepDancing"
+    , defaultStoryBeat
+        |> withTimeUntil 8 "tiredFromDancing"
+        |> withCanDrinkBeer
+        |> withPlayerPosition 58 18
+        |> withSimonPosition 68 16
+    )
+
+
+restFromDancing : ( String, StoryBeat )
+restFromDancing =
+    ( "restFromDancing"
+    , defaultStoryBeat
+        |> withTimeUntil 8 "mehmetIntroducesHimself"
+        |> withCanUsePhone
+        |> withCanDrinkBeer
+    )
+
+
+mehmetIntroducesHimself : ( String, StoryBeat )
+mehmetIntroducesHimself =
+    ( "mehmetIntroducesHimself"
+    , defaultStoryBeat
+        |> withDescription
+            ("Mehmet jives over next to you, \"Dude, we've got some sick moves out there.\"")
+        |> withActions
+            [ ( "\"It's not really my thing.\"", "notMyThing" )
+            , ( "\"Yeah man, it's fun.\"", "yeahItsFun" )
+            ]
+        |> withMehmetPosition 38 27
+    )
+
+
+notMyThing : ( String, StoryBeat )
+notMyThing =
+    ( "notMyThing"
+    , defaultStoryBeat
+        |> withDescription "\"Oh bruv, looks like you're low, want another beer?\", he asks."
+        |> withActions
+            [ ( "\"Yeah a Carlsberg or something, cheers mate.\"", "askForACarlsberg" )
+            , ( "\"Actually, you reckon they've got rum?\"", "askForARum" )
+            , ( "\"I'm ok, thanks\"", "turnDownDrink" )
+            ]
+        |> withMehmetPosition 42 30
+    )
+
+
+yeahItsFun : ( String, StoryBeat )
+yeahItsFun =
+    ( "yeahItsFun"
+    , defaultStoryBeat
+        |> withDescription "\"Oh bruv, looks like you're low, want another beer?\", he asks."
+        |> withActions
+            [ ( "\"Yeah a Carlsberg or something, cheers mate.\"", "askForACarlsberg" )
+            , ( "\"Actually, you reckon they've got rum?\"", "askForARum" )
+            ]
+        |> withMehmetPosition 38 27
+    )
+
+
+askForACarlsberg : ( String, StoryBeat )
+askForACarlsberg =
+    ( "askForACarlsberg"
+    , defaultStoryBeat
+        |> withDescription "\"Righto bruv, two ticks.\""
+        |> withMehmetPosition 120 18
+        |> withTimeUntil 6 "mehmetBringsCarlsberg"
+    )
+
+
+mehmetBringsCarlsberg : ( String, StoryBeat )
+mehmetBringsCarlsberg =
+    ( "mehmetBringsCarlsberg"
+    , defaultStoryBeat
+        |> withMehmetPosition 38 27
+    )
+
+
+askForARum : ( String, StoryBeat )
+askForARum =
+    ( "askForARum"
+    , defaultStoryBeat
+        |> withDescription
+            ("Mehmet claps you on the back, \"I like your style,\" he grins "
+                ++ "like a madman as you walk over to the drinks table."
+            )
+        |> withMehmetPosition 120 18
+        |> withPlayerPosition 120 24
+        |> withTimeUntil 6 "comeBackWithRum"
+    )
+
+
+comeBackWithRum : ( String, StoryBeat )
+comeBackWithRum =
+    ( "comeBackWithRum"
+    , defaultStoryBeat
+    )
+
+
+turnDownDrink : ( String, StoryBeat )
+turnDownDrink =
+    ( "turnDownDrink"
+    , defaultStoryBeat
+        |> withCanUsePhone
     )
