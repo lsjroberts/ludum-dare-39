@@ -10159,10 +10159,30 @@ var _user$project$Main$withPlayerPosition = F3(
 				playerPosition: {ctor: '_Tuple2', _0: x, _1: y}
 			});
 	});
-var _user$project$Main$withCanDrinkBeer = function (beat) {
+var _user$project$Main$withChangeDrinkType = F2(
+	function (drinkType, beat) {
+		return _elm_lang$core$Native_Utils.update(
+			beat,
+			{
+				changeDrinkType: _elm_lang$core$Maybe$Just(drinkType)
+			});
+	});
+var _user$project$Main$withEnergyBoost = F2(
+	function (energyBoost, beat) {
+		return _elm_lang$core$Native_Utils.update(
+			beat,
+			{energyBoost: energyBoost});
+	});
+var _user$project$Main$withConfidenceBoost = F2(
+	function (confidenceBoost, beat) {
+		return _elm_lang$core$Native_Utils.update(
+			beat,
+			{confidenceBoost: confidenceBoost});
+	});
+var _user$project$Main$withCanDrink = function (beat) {
 	return _elm_lang$core$Native_Utils.update(
 		beat,
-		{canDrinkBeer: true});
+		{canDrink: true});
 };
 var _user$project$Main$withCanUsePhone = function (beat) {
 	return _elm_lang$core$Native_Utils.update(
@@ -10988,7 +11008,11 @@ var _user$project$Main$viewFloor = function (energy) {
 										_1: {
 											ctor: '::',
 											_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'transition', _1: 'height 1s linear'},
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
@@ -11064,7 +11088,13 @@ var _user$project$Main$Model = function (a) {
 										return function (k) {
 											return function (l) {
 												return function (m) {
-													return {energy: a, confidence: b, time: c, phoneBattery: d, phoneUsageTimer: e, drunkenness: f, beerUsageTimer: g, danceOffset: h, storyKey: i, storyTimer: j, storyDescriptionTimer: k, storyHasDrunkBeer: l, storyHasMessage: m};
+													return function (n) {
+														return function (o) {
+															return function (p) {
+																return {energy: a, confidence: b, time: c, phoneBattery: d, phoneUsageTimer: e, drunkenness: f, drunkOffsetX: g, drunkOffsetY: h, drinkUsageTimer: i, danceOffset: j, storyKey: k, storyTimer: l, storyDescriptionTimer: m, storyHasDrunkBeer: n, storyHasMessage: o, storyDrinkType: p};
+															};
+														};
+													};
 												};
 											};
 										};
@@ -11078,11 +11108,6 @@ var _user$project$Main$Model = function (a) {
 		};
 	};
 };
-var _user$project$Main$init = {
-	ctor: '_Tuple2',
-	_0: _user$project$Main$Model(_user$project$Main$maxEnergy)(80)(0)(90)(0)(0)(0)(0)('arriveAtParty')(_elm_lang$core$Maybe$Nothing)(_elm_lang$core$Maybe$Nothing)(false)(false),
-	_1: _elm_lang$core$Platform_Cmd$none
-};
 var _user$project$Main$StoryBeat = function (a) {
 	return function (b) {
 		return function (c) {
@@ -11095,7 +11120,13 @@ var _user$project$Main$StoryBeat = function (a) {
 									return function (j) {
 										return function (k) {
 											return function (l) {
-												return {description: a, clearDescriptionAfter: b, actions: c, timeUntil: d, canUsePhone: e, phoneHasMessage: f, canDrinkBeer: g, playerPosition: h, simonPosition: i, annaPosition: j, mehmetPosition: k, pollyPosition: l};
+												return function (m) {
+													return function (n) {
+														return function (o) {
+															return {description: a, clearDescriptionAfter: b, actions: c, timeUntil: d, canUsePhone: e, phoneHasMessage: f, canDrink: g, confidenceBoost: h, energyBoost: i, changeDrinkType: j, playerPosition: k, simonPosition: l, annaPosition: m, mehmetPosition: n, pollyPosition: o};
+														};
+													};
+												};
 											};
 										};
 									};
@@ -11109,7 +11140,7 @@ var _user$project$Main$StoryBeat = function (a) {
 	};
 };
 var _user$project$Main$defaultStoryBeat = _user$project$Main$StoryBeat('')(_elm_lang$core$Maybe$Nothing)(
-	{ctor: '[]'})(_elm_lang$core$Maybe$Nothing)(false)(false)(false)(
+	{ctor: '[]'})(_elm_lang$core$Maybe$Nothing)(false)(false)(false)(0)(0)(_elm_lang$core$Maybe$Nothing)(
 	{ctor: '_Tuple2', _0: 29, _1: 0})(
 	{ctor: '_Tuple2', _0: 60, _1: 18})(
 	{ctor: '_Tuple2', _0: 56, _1: 13})(
@@ -11182,31 +11213,34 @@ var _user$project$Main$takeTheBeer = {
 		_user$project$Main$withSimonPosition,
 		39,
 		26,
-		_user$project$Main$withCanDrinkBeer(
+		_user$project$Main$withCanDrink(
 			A2(
 				_user$project$Main$withDescription,
-				A2(_elm_lang$core$Basics_ops['++'], 'You take the beer. Its wet surface dampens your hand. You hold it ', 'up to your mouth and feel the coldness on your lips.'),
+				A2(_elm_lang$core$Basics_ops['++'], 'You take the beer. The wet glass dampens your hand. You hold it ', 'up to your mouth and feel the coldness on your lips.'),
 				_user$project$Main$defaultStoryBeat)))
 };
 var _user$project$Main$drinkBeerFirstTime = {
 	ctor: '_Tuple2',
 	_0: 'drinkBeerFirstTime',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		_user$project$Main$withCanUsePhone(
 			A2(
-				_user$project$Main$withClearDescriptionAfter,
-				8,
-				A3(
-					_user$project$Main$withTimeUntil,
-					12,
-					'weirdCarpet',
-					A2(
-						_user$project$Main$withDescription,
+				_user$project$Main$withConfidenceBoost,
+				10,
+				A2(
+					_user$project$Main$withClearDescriptionAfter,
+					8,
+					A3(
+						_user$project$Main$withTimeUntil,
+						12,
+						'weirdCarpet',
 						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'You don\'t like its bitter taste, you\'re more of a rum person. But, ',
-							A2(_elm_lang$core$Basics_ops['++'], 'enough of this, and hey, you may work up the courage to talk to ', 'someone new. Or so you tell yourself.')),
-						_user$project$Main$defaultStoryBeat)))))
+							_user$project$Main$withDescription,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'You don\'t like its bitter taste, you\'re more of a rum person. But, ',
+								A2(_elm_lang$core$Basics_ops['++'], 'enough of this, and hey, you may work up the courage to talk to ', 'someone new. Or so you tell yourself.')),
+							_user$project$Main$defaultStoryBeat))))))
 };
 var _user$project$Main$weirdCarpet = {
 	ctor: '_Tuple2',
@@ -11215,7 +11249,7 @@ var _user$project$Main$weirdCarpet = {
 		_user$project$Main$withTimeUntil,
 		8,
 		'messageFromSimon',
-		_user$project$Main$withCanDrinkBeer(
+		_user$project$Main$withCanDrink(
 			_user$project$Main$withCanUsePhone(
 				A2(
 					_user$project$Main$withClearDescriptionAfter,
@@ -11244,7 +11278,7 @@ var _user$project$Main$messageFromSimon = {
 var _user$project$Main$yeahMateFine = {
 	ctor: '_Tuple2',
 	_0: 'yeahMateFine',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		_user$project$Main$withCanUsePhone(
 			A3(
 				_user$project$Main$withTimeUntil,
@@ -11258,7 +11292,7 @@ var _user$project$Main$yeahMateFine = {
 var _user$project$Main$askHowLong = {
 	ctor: '_Tuple2',
 	_0: 'askHowLong',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		_user$project$Main$withCanUsePhone(
 			A3(
 				_user$project$Main$withTimeUntil,
@@ -11267,12 +11301,15 @@ var _user$project$Main$askHowLong = {
 				A2(
 					_user$project$Main$withClearDescriptionAfter,
 					4,
-					A2(_user$project$Main$withDescription, '\"Err, till 2am probs\"', _user$project$Main$defaultStoryBeat)))))
+					A2(
+						_user$project$Main$withConfidenceBoost,
+						-10,
+						A2(_user$project$Main$withDescription, '\"Err, till 2am probs\"', _user$project$Main$defaultStoryBeat))))))
 };
 var _user$project$Main$simonIntroducesAnna = {
 	ctor: '_Tuple2',
 	_0: 'simonIntroducesAnna',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		A3(
 			_user$project$Main$withAnnaPosition,
 			39,
@@ -11281,48 +11318,55 @@ var _user$project$Main$simonIntroducesAnna = {
 				_user$project$Main$withSimonPosition,
 				42,
 				30,
-				A2(
-					_user$project$Main$withActions,
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: '\"Hey Anna, alright?\"', _1: 'heyAnna'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: '\"Umm, hi.\"', _1: 'ummAnna'},
-							_1: {ctor: '[]'}
-						}
-					},
+				A3(
+					_user$project$Main$withTimeUntil,
+					8,
+					'ignoredThem',
 					A2(
-						_user$project$Main$withDescription,
-						A2(_elm_lang$core$Basics_ops['++'], '\"Bruv, this is Anna,\" says Simon. \"Anna, this is my friend ', 'I was telling you about.\"'),
-						_user$project$Main$defaultStoryBeat)))))
+						_user$project$Main$withActions,
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: '\"Hey Anna, alright?\"', _1: 'heyAnna'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: '\"Umm, hi.\"', _1: 'ummAnna'},
+								_1: {ctor: '[]'}
+							}
+						},
+						A2(
+							_user$project$Main$withDescription,
+							A2(_elm_lang$core$Basics_ops['++'], '\"Bruv, this is Anna,\" says Simon. \"Anna, this is my friend ', 'I was telling you about.\"'),
+							_user$project$Main$defaultStoryBeat))))))
 };
 var _user$project$Main$heyAnna = {
 	ctor: '_Tuple2',
 	_0: 'heyAnna',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		A3(
 			_user$project$Main$withAnnaPosition,
 			39,
 			26,
 			A2(
-				_user$project$Main$withActions,
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: '\"Ok, why not.\"', _1: 'danceWithAnna'},
-					_1: {
+				_user$project$Main$withConfidenceBoost,
+				20,
+				A2(
+					_user$project$Main$withActions,
+					{
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: '\"A bit later, perhaps.\"', _1: 'avoidDanceWithAnna'},
-						_1: {ctor: '[]'}
-					}
-				},
-				A2(_user$project$Main$withDescription, '\"I\'m great thanks. This party is well fun. Why don\'t you come dance?\"', _user$project$Main$defaultStoryBeat))))
+						_0: {ctor: '_Tuple2', _0: '\"Ok, why not.\"', _1: 'danceWithAnna'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: '\"A bit later, perhaps.\"', _1: 'avoidDanceWithAnna'},
+							_1: {ctor: '[]'}
+						}
+					},
+					A2(_user$project$Main$withDescription, '\"I\'m great thanks. This party is well fun. Why don\'t you come dance?\"', _user$project$Main$defaultStoryBeat)))))
 };
 var _user$project$Main$ummAnna = {
 	ctor: '_Tuple2',
 	_0: 'ummAnna',
 	_1: _user$project$Main$withCanUsePhone(
-		_user$project$Main$withCanDrinkBeer(
+		_user$project$Main$withCanDrink(
 			A3(
 				_user$project$Main$withAnnaPosition,
 				39,
@@ -11335,8 +11379,12 @@ var _user$project$Main$ummAnna = {
 						_user$project$Main$withActions,
 						{
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'nah', _1: 'nah'},
-							_1: {ctor: '[]'}
+							_0: {ctor: '_Tuple2', _0: '\"Ok, why not.\"', _1: 'danceWithAnna'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: '\"A bit later, perhaps.\"', _1: 'avoidDanceWithAnna'},
+								_1: {ctor: '[]'}
+							}
 						},
 						A2(_user$project$Main$withDescription, '\"Hi, err, do you want to dance with us?\" she asks.', _user$project$Main$defaultStoryBeat))))))
 };
@@ -11355,7 +11403,8 @@ var _user$project$Main$danceWithAnna = {
 				_user$project$Main$withTimeUntil,
 				8,
 				'tiredFromDancing',
-				_user$project$Main$withCanDrinkBeer(_user$project$Main$defaultStoryBeat))))
+				_user$project$Main$withCanDrink(
+					A2(_user$project$Main$withConfidenceBoost, 10, _user$project$Main$defaultStoryBeat)))))
 };
 var _user$project$Main$tiredFromDancing = {
 	ctor: '_Tuple2',
@@ -11392,13 +11441,17 @@ var _user$project$Main$keepDancing = {
 			_user$project$Main$withPlayerPosition,
 			58,
 			18,
-			_user$project$Main$withCanDrinkBeer(
-				A3(_user$project$Main$withTimeUntil, 8, 'tiredFromDancing', _user$project$Main$defaultStoryBeat))))
+			_user$project$Main$withCanDrink(
+				A3(
+					_user$project$Main$withTimeUntil,
+					8,
+					'tiredFromDancing',
+					A2(_user$project$Main$withConfidenceBoost, 3, _user$project$Main$defaultStoryBeat)))))
 };
 var _user$project$Main$restFromDancing = {
 	ctor: '_Tuple2',
 	_0: 'restFromDancing',
-	_1: _user$project$Main$withCanDrinkBeer(
+	_1: _user$project$Main$withCanDrink(
 		_user$project$Main$withCanUsePhone(
 			A3(_user$project$Main$withTimeUntil, 8, 'mehmetIntroducesHimself', _user$project$Main$defaultStoryBeat)))
 };
@@ -11409,18 +11462,22 @@ var _user$project$Main$mehmetIntroducesHimself = {
 		_user$project$Main$withMehmetPosition,
 		38,
 		27,
-		A2(
-			_user$project$Main$withActions,
-			{
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: '\"It\'s not really my thing.\"', _1: 'notMyThing'},
-				_1: {
+		A3(
+			_user$project$Main$withTimeUntil,
+			8,
+			'ignoredThem',
+			A2(
+				_user$project$Main$withActions,
+				{
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: '\"Yeah man, it\'s fun.\"', _1: 'yeahItsFun'},
-					_1: {ctor: '[]'}
-				}
-			},
-			A2(_user$project$Main$withDescription, 'Mehmet jives over next to you, \"Dude, we\'ve got some sick moves out there.\"', _user$project$Main$defaultStoryBeat)))
+					_0: {ctor: '_Tuple2', _0: '\"It\'s not really my thing.\"', _1: 'notMyThing'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: '\"Yeah man, it\'s fun.\"', _1: 'yeahItsFun'},
+						_1: {ctor: '[]'}
+					}
+				},
+				A2(_user$project$Main$withDescription, 'Mehmet jives over next to you, \"Dude, we\'ve got some sick moves out there.\"', _user$project$Main$defaultStoryBeat))))
 };
 var _user$project$Main$notMyThing = {
 	ctor: '_Tuple2',
@@ -11454,17 +11511,20 @@ var _user$project$Main$yeahItsFun = {
 		38,
 		27,
 		A2(
-			_user$project$Main$withActions,
-			{
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: '\"Yeah a Carlsberg or something, cheers mate.\"', _1: 'askForACarlsberg'},
-				_1: {
+			_user$project$Main$withConfidenceBoost,
+			5,
+			A2(
+				_user$project$Main$withActions,
+				{
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: '\"Actually, you reckon they\'ve got rum?\"', _1: 'askForARum'},
-					_1: {ctor: '[]'}
-				}
-			},
-			A2(_user$project$Main$withDescription, '\"Oh bruv, looks like you\'re low, want another beer?\", he asks.', _user$project$Main$defaultStoryBeat)))
+					_0: {ctor: '_Tuple2', _0: '\"Yeah a Carlsberg or something, cheers mate.\"', _1: 'askForACarlsberg'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: '\"Actually, you reckon they\'ve got rum?\"', _1: 'askForARum'},
+						_1: {ctor: '[]'}
+					}
+				},
+				A2(_user$project$Main$withDescription, '\"Oh bruv, looks like you\'re low, want another beer?\", he asks.', _user$project$Main$defaultStoryBeat))))
 };
 var _user$project$Main$askForACarlsberg = {
 	ctor: '_Tuple2',
@@ -11482,7 +11542,44 @@ var _user$project$Main$askForACarlsberg = {
 var _user$project$Main$mehmetBringsCarlsberg = {
 	ctor: '_Tuple2',
 	_0: 'mehmetBringsCarlsberg',
-	_1: A3(_user$project$Main$withMehmetPosition, 38, 27, _user$project$Main$defaultStoryBeat)
+	_1: A3(
+		_user$project$Main$withMehmetPosition,
+		38,
+		27,
+		A2(
+			_user$project$Main$withActions,
+			{
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: '\"Yeah mate, thanks for the drink.\"', _1: 'drinkYourCarlsberg'},
+				_1: {ctor: '[]'}
+			},
+			A2(_user$project$Main$withDescription, '\"Catch you later bruv.\"', _user$project$Main$defaultStoryBeat)))
+};
+var _user$project$Main$drinkYourCarlsberg = {
+	ctor: '_Tuple2',
+	_0: 'drinkYourCarlsberg',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'thinkAboutDancing',
+		_user$project$Main$withCanUsePhone(
+			_user$project$Main$withCanDrink(_user$project$Main$defaultStoryBeat)))
+};
+var _user$project$Main$thinkAboutDancing = {
+	ctor: '_Tuple2',
+	_0: 'thinkAboutDancing',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'Go dance.', _1: 'goDanceWithPolly'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'Hang back.', _1: 'hangBack'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'You think about going to dance again.', _user$project$Main$defaultStoryBeat))
 };
 var _user$project$Main$askForARum = {
 	ctor: '_Tuple2',
@@ -11500,15 +11597,182 @@ var _user$project$Main$askForARum = {
 				120,
 				18,
 				A2(
-					_user$project$Main$withDescription,
-					A2(_elm_lang$core$Basics_ops['++'], 'Mehmet claps you on the back, \"I like your style,\" he grins ', 'like a madman as you walk over to the drinks table.'),
-					_user$project$Main$defaultStoryBeat))))
+					_user$project$Main$withConfidenceBoost,
+					5,
+					A2(
+						_user$project$Main$withDescription,
+						A2(_elm_lang$core$Basics_ops['++'], 'Mehmet claps you on the back, \"I like your style,\" he grins ', 'like a madman as you walk over to the drinks table.'),
+						_user$project$Main$defaultStoryBeat)))))
 };
-var _user$project$Main$comeBackWithRum = {ctor: '_Tuple2', _0: 'comeBackWithRum', _1: _user$project$Main$defaultStoryBeat};
+var _user$project$Main$thinkAboutDancingWithRum = {
+	ctor: '_Tuple2',
+	_0: 'thinkAboutDancingWithRum',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'Go dance.', _1: 'goDanceWithPolly'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'Hang back.', _1: 'hangBack'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'You think you could probably dance with your rum in one hand.', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$goDanceWithPolly = {
+	ctor: '_Tuple2',
+	_0: 'goDanceWithPolly',
+	_1: A2(
+		_user$project$Main$withEnergyBoost,
+		-5,
+		A3(
+			_user$project$Main$withSimonPosition,
+			58,
+			18,
+			A3(
+				_user$project$Main$withPlayerPosition,
+				68,
+				18,
+				A3(_user$project$Main$withTimeUntil, 4, 'musicSwells', _user$project$Main$defaultStoryBeat))))
+};
+var _user$project$Main$musicSwells = {
+	ctor: '_Tuple2',
+	_0: 'musicSwells',
+	_1: A3(
+		_user$project$Main$withSimonPosition,
+		58,
+		18,
+		A3(
+			_user$project$Main$withPlayerPosition,
+			68,
+			18,
+			A2(
+				_user$project$Main$withActions,
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'Tap your foot.', _1: 'tapFoot'},
+					_1: {ctor: '[]'}
+				},
+				A2(_user$project$Main$withDescription, 'The music swells, you feel its rhythm in your bones as you close your eyes.', _user$project$Main$defaultStoryBeat))))
+};
+var _user$project$Main$tapFoot = {
+	ctor: '_Tuple2',
+	_0: 'tapFoot',
+	_1: A3(
+		_user$project$Main$withSimonPosition,
+		58,
+		18,
+		A3(
+			_user$project$Main$withPlayerPosition,
+			68,
+			18,
+			A3(
+				_user$project$Main$withTimeUntil,
+				6,
+				'pollyDances',
+				A2(
+					_user$project$Main$withClearDescriptionAfter,
+					3,
+					A2(
+						_user$project$Main$withEnergyBoost,
+						-5,
+						A2(_user$project$Main$withDescription, 'Tap. Tap tap.', _user$project$Main$defaultStoryBeat))))))
+};
+var _user$project$Main$pollyDances = {
+	ctor: '_Tuple2',
+	_0: 'pollyDances',
+	_1: A3(
+		_user$project$Main$withSimonPosition,
+		58,
+		18,
+		A3(
+			_user$project$Main$withPlayerPosition,
+			68,
+			18,
+			A2(
+				_user$project$Main$withEnergyBoost,
+				-5,
+				A2(
+					_user$project$Main$withConfidenceBoost,
+					5,
+					_user$project$Main$withCanDrink(
+						A2(
+							_user$project$Main$withActions,
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'Copy Polly\'s dance moves.', _1: 'copyPollysDanceMoves'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'Take a break', _1: 'restFromDancingWithPolly'},
+									_1: {ctor: '[]'}
+								}
+							},
+							A2(_user$project$Main$withDescription, 'You open your eyes, Polly is looking at you, shimmying left and right.', _user$project$Main$defaultStoryBeat)))))))
+};
+var _user$project$Main$copyPollysDanceMoves = {
+	ctor: '_Tuple2',
+	_0: 'copyPollysDanceMoves',
+	_1: A3(
+		_user$project$Main$withSimonPosition,
+		58,
+		18,
+		A3(
+			_user$project$Main$withPlayerPosition,
+			68,
+			18,
+			A2(
+				_user$project$Main$withEnergyBoost,
+				-5,
+				A2(
+					_user$project$Main$withConfidenceBoost,
+					5,
+					_user$project$Main$withCanDrink(
+						A2(_user$project$Main$withDescription, 'copyPollysDanceMoves', _user$project$Main$defaultStoryBeat))))))
+};
+var _user$project$Main$restFromDancingWithPolly = {
+	ctor: '_Tuple2',
+	_0: 'restFromDancingWithPolly',
+	_1: A2(
+		_user$project$Main$withEnergyBoost,
+		10,
+		A2(
+			_user$project$Main$withConfidenceBoost,
+			-5,
+			_user$project$Main$withCanUsePhone(
+				_user$project$Main$withCanDrink(
+					A2(_user$project$Main$withDescription, 'restFromDancingWithPolly', _user$project$Main$defaultStoryBeat)))))
+};
+var _user$project$Main$hangBack = {
+	ctor: '_Tuple2',
+	_0: 'hangBack',
+	_1: A2(_user$project$Main$withEnergyBoost, 10, _user$project$Main$defaultStoryBeat)
+};
 var _user$project$Main$turnDownDrink = {
 	ctor: '_Tuple2',
 	_0: 'turnDownDrink',
 	_1: _user$project$Main$withCanUsePhone(_user$project$Main$defaultStoryBeat)
+};
+var _user$project$Main$ignoredThem = {
+	ctor: '_Tuple2',
+	_0: 'ignoredThem',
+	_1: _user$project$Main$withCanUsePhone(
+		_user$project$Main$withCanDrink(
+			A2(_user$project$Main$withDescription, 'You ignored them.', _user$project$Main$defaultStoryBeat)))
+};
+var _user$project$Main$Rum = {ctor: 'Rum'};
+var _user$project$Main$comeBackWithRum = {
+	ctor: '_Tuple2',
+	_0: 'comeBackWithRum',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'thinkAboutDancingWithRum',
+		A2(
+			_user$project$Main$withChangeDrinkType,
+			_user$project$Main$Rum,
+			_user$project$Main$withCanUsePhone(
+				_user$project$Main$withCanDrink(_user$project$Main$defaultStoryBeat))))
 };
 var _user$project$Main$story = _elm_lang$core$Dict$fromList(
 	{
@@ -11579,14 +11843,54 @@ var _user$project$Main$story = _elm_lang$core$Dict$fromList(
 																							_0: _user$project$Main$mehmetBringsCarlsberg,
 																							_1: {
 																								ctor: '::',
-																								_0: _user$project$Main$askForARum,
+																								_0: _user$project$Main$drinkYourCarlsberg,
 																								_1: {
 																									ctor: '::',
-																									_0: _user$project$Main$comeBackWithRum,
+																									_0: _user$project$Main$thinkAboutDancing,
 																									_1: {
 																										ctor: '::',
-																										_0: _user$project$Main$turnDownDrink,
-																										_1: {ctor: '[]'}
+																										_0: _user$project$Main$askForARum,
+																										_1: {
+																											ctor: '::',
+																											_0: _user$project$Main$comeBackWithRum,
+																											_1: {
+																												ctor: '::',
+																												_0: _user$project$Main$thinkAboutDancingWithRum,
+																												_1: {
+																													ctor: '::',
+																													_0: _user$project$Main$turnDownDrink,
+																													_1: {
+																														ctor: '::',
+																														_0: _user$project$Main$goDanceWithPolly,
+																														_1: {
+																															ctor: '::',
+																															_0: _user$project$Main$musicSwells,
+																															_1: {
+																																ctor: '::',
+																																_0: _user$project$Main$tapFoot,
+																																_1: {
+																																	ctor: '::',
+																																	_0: _user$project$Main$pollyDances,
+																																	_1: {
+																																		ctor: '::',
+																																		_0: _user$project$Main$copyPollysDanceMoves,
+																																		_1: {
+																																			ctor: '::',
+																																			_0: _user$project$Main$restFromDancingWithPolly,
+																																			_1: {
+																																				ctor: '::',
+																																				_0: _user$project$Main$hangBack,
+																																				_1: {ctor: '[]'}
+																																			}
+																																		}
+																																	}
+																																}
+																															}
+																														}
+																													}
+																												}
+																											}
+																										}
 																									}
 																								}
 																							}
@@ -11614,6 +11918,18 @@ var _user$project$Main$story = _elm_lang$core$Dict$fromList(
 	});
 var _user$project$Main$getStoryBeat = function (storyKey) {
 	return A2(_elm_lang$core$Dict$get, storyKey, _user$project$Main$story);
+};
+var _user$project$Main$Beer = {ctor: 'Beer'};
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$Main$Model(_user$project$Main$maxEnergy)(50)(0)(90)(0)(0)(0)(0)(0)(0)('arriveAtParty')(_elm_lang$core$Maybe$Nothing)(_elm_lang$core$Maybe$Nothing)(false)(false)(_user$project$Main$Beer),
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Main$UpdateDrunkOffsetY = function (a) {
+	return {ctor: 'UpdateDrunkOffsetY', _0: a};
+};
+var _user$project$Main$UpdateDrunkOffsetX = function (a) {
+	return {ctor: 'UpdateDrunkOffsetX', _0: a};
 };
 var _user$project$Main$UpdateDanceOffset = function (a) {
 	return {ctor: 'UpdateDanceOffset', _0: a};
@@ -11766,12 +12082,12 @@ var _user$project$Main$update = F2(
 							return _elm_lang$core$Maybe$Nothing;
 						}
 					}();
-					var beerUsageTimer = (_elm_lang$core$Native_Utils.cmp(model.beerUsageTimer, 0) > 0) ? (model.beerUsageTimer - 1) : 0;
+					var drinkUsageTimer = (_elm_lang$core$Native_Utils.cmp(model.drinkUsageTimer, 0) > 0) ? (model.drinkUsageTimer - 1) : 0;
 					var phoneUsageTimer = (_elm_lang$core$Native_Utils.cmp(model.phoneUsageTimer, 0) > 0) ? (model.phoneUsageTimer - 1) : 0;
 					var energy = (_elm_lang$core$Native_Utils.eq(phoneUsageTimer, 0) && (_elm_lang$core$Native_Utils.cmp(model.energy, 0) > 0)) ? (model.energy - 1) : model.energy;
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{energy: energy, time: model.time + (1 * _user$project$Main$minutesPerSecond), phoneUsageTimer: phoneUsageTimer, beerUsageTimer: beerUsageTimer, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer});
+						{energy: energy, time: model.time + (1 * _user$project$Main$minutesPerSecond), phoneUsageTimer: phoneUsageTimer, drinkUsageTimer: drinkUsageTimer, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer});
 				case 'TickMinute':
 					var drunkenness = (_elm_lang$core$Native_Utils.cmp(model.drunkenness, 0) > 0) ? (model.drunkenness - 1) : 0;
 					return _elm_lang$core$Native_Utils.update(
@@ -11784,16 +12100,17 @@ var _user$project$Main$update = F2(
 						{confidence: confidence});
 				case 'TickDance':
 					return model;
+				case 'TickDrunk':
+					return model;
 				case 'UsePhone':
 					return _elm_lang$core$Native_Utils.update(
 						model,
 						{phoneBattery: model.phoneBattery - 1, phoneUsageTimer: 6});
-				case 'DrinkBeer':
-					var drunkIncrement = (_elm_lang$core$Native_Utils.cmp(model.drunkenness, 2) < 0) ? 1 : _elm_lang$core$Basics$floor(
-						_elm_lang$core$Basics$toFloat(model.drunkenness) / 2.0);
+				case 'Drink':
+					var drunkIncrement = _elm_lang$core$Native_Utils.eq(model.drunkenness, 0) ? 1 : model.drunkenness;
 					var newModel = _elm_lang$core$Native_Utils.update(
 						model,
-						{drunkenness: model.drunkenness + drunkIncrement, confidence: model.confidence + 1, beerUsageTimer: 10, storyHasDrunkBeer: true});
+						{drunkenness: model.drunkenness + drunkIncrement, confidence: model.confidence + 1, drinkUsageTimer: 10, storyHasDrunkBeer: true});
 					if (model.storyHasDrunkBeer) {
 						return newModel;
 					} else {
@@ -11804,8 +12121,8 @@ var _user$project$Main$update = F2(
 						continue update;
 					}
 				case 'GoToStoryBeat':
-					var _p13 = _p7._0;
-					var maybeStoryBeat = _user$project$Main$getStoryBeat(_p13);
+					var _p14 = _p7._0;
+					var maybeStoryBeat = _user$project$Main$getStoryBeat(_p14);
 					var storyTimer = function () {
 						var _p10 = maybeStoryBeat;
 						if (_p10.ctor === 'Just') {
@@ -11827,13 +12144,49 @@ var _user$project$Main$update = F2(
 							return _elm_lang$core$Maybe$Nothing;
 						}
 					}();
+					var confidence = function () {
+						var _p13 = maybeStoryBeat;
+						if (_p13.ctor === 'Just') {
+							return model.confidence + _p13._0.confidenceBoost;
+						} else {
+							return model.confidence;
+						}
+					}();
+					var energy = A3(
+						_elm_community$maybe_extra$Maybe_Extra$unwrap,
+						model.energy,
+						function (beat) {
+							return model.energy + beat.energyBoost;
+						},
+						maybeStoryBeat);
+					var storyDrinkType = A3(
+						_elm_community$maybe_extra$Maybe_Extra$unwrap,
+						model.storyDrinkType,
+						function (beat) {
+							return A3(
+								_elm_community$maybe_extra$Maybe_Extra$unwrap,
+								model.storyDrinkType,
+								function (drinkType) {
+									return drinkType;
+								},
+								beat.changeDrinkType);
+						},
+						maybeStoryBeat);
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{storyKey: _p13, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer});
-				default:
+						{energy: energy, confidence: confidence, storyKey: _p14, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer, storyDrinkType: storyDrinkType});
+				case 'UpdateDanceOffset':
 					return _elm_lang$core$Native_Utils.update(
 						model,
 						{danceOffset: _p7._0});
+				case 'UpdateDrunkOffsetX':
+					return _elm_lang$core$Native_Utils.update(
+						model,
+						{drunkOffsetX: _p7._0});
+				default:
+					return _elm_lang$core$Native_Utils.update(
+						model,
+						{drunkOffsetY: _p7._0});
 			}
 		}
 	});
@@ -11841,11 +12194,11 @@ var _user$project$Main$updateWithStoryTimer = F2(
 	function (msg, model) {
 		var newModel = A2(_user$project$Main$update, msg, model);
 		var unwrap = _elm_community$maybe_extra$Maybe_Extra$unwrap(newModel);
-		var applyNextStoryBeat = function (_p14) {
-			var _p15 = _p14;
+		var applyNextStoryBeat = function (_p15) {
+			var _p16 = _p15;
 			return A2(
 				_user$project$Main$update,
-				_user$project$Main$GoToStoryBeat(_p15._1),
+				_user$project$Main$GoToStoryBeat(_p16._1),
 				newModel);
 		};
 		var applyStoryBeat = function (storyBeat) {
@@ -11862,8 +12215,8 @@ var _user$project$Main$updateWithStoryTimer = F2(
 var _user$project$Main$updateWithCmds = F2(
 	function (msg, model) {
 		var newModel = A2(_user$project$Main$updateWithStoryTimer, msg, model);
-		var _p16 = msg;
-		switch (_p16.ctor) {
+		var _p17 = msg;
+		switch (_p17.ctor) {
 			case 'TickDance':
 				return {
 					ctor: '_Tuple2',
@@ -11872,6 +12225,27 @@ var _user$project$Main$updateWithCmds = F2(
 						_elm_lang$core$Random$generate,
 						_user$project$Main$UpdateDanceOffset,
 						A2(_elm_lang$core$Random$float, 0, 1))
+				};
+			case 'TickDrunk':
+				return {
+					ctor: '_Tuple2',
+					_0: newModel,
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$core$Random$generate,
+								_user$project$Main$UpdateDrunkOffsetX,
+								A2(_elm_lang$core$Random$float, 0, 1)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$core$Random$generate,
+									_user$project$Main$UpdateDrunkOffsetY,
+									A2(_elm_lang$core$Random$float, 0, 1)),
+								_1: {ctor: '[]'}
+							}
+						})
 				};
 			case 'UsePhone':
 				return {
@@ -11884,11 +12258,23 @@ var _user$project$Main$updateWithCmds = F2(
 				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _user$project$Main$DrinkBeer = {ctor: 'DrinkBeer'};
-var _user$project$Main$viewBeer = F2(
-	function (beerUsageTimer, storyBeat) {
-		var canDrinkBeer = (_elm_lang$core$Native_Utils.cmp(beerUsageTimer, 0) > 0) ? false : storyBeat.canDrinkBeer;
-		return canDrinkBeer ? A2(
+var _user$project$Main$Drink = {ctor: 'Drink'};
+var _user$project$Main$viewDrink = F6(
+	function (drinkUsageTimer, offsetX, offsetY, drunkenness, drinkType, storyBeat) {
+		var left = _elm_lang$core$Basics$toString(
+			20.0 + ((offsetX * _elm_lang$core$Basics$toFloat(drunkenness)) * 0.3));
+		var top = _elm_lang$core$Basics$toString(
+			20.0 + ((offsetY * _elm_lang$core$Basics$toFloat(drunkenness)) * 0.3));
+		var drinkText = function () {
+			var _p18 = drinkType;
+			if (_p18.ctor === 'Beer') {
+				return 'Drink some beer';
+			} else {
+				return 'Sip your rum';
+			}
+		}();
+		var canDrink = (_elm_lang$core$Native_Utils.cmp(drinkUsageTimer, 0) > 0) ? false : storyBeat.canDrink;
+		return canDrink ? A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
@@ -11901,17 +12287,29 @@ var _user$project$Main$viewBeer = F2(
 							_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
 							_1: {
 								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'top', _1: '20vh'},
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'top',
+									_1: A2(_elm_lang$core$Basics_ops['++'], top, 'vh')
+								},
 								_1: {
 									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'left', _1: '20vw'},
-									_1: {ctor: '[]'}
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'left',
+										_1: A2(_elm_lang$core$Basics_ops['++'], left, 'vw')
+									},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'transition', _1: 'top 1s linear, left 1s linear'},
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						})),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$DrinkBeer),
+					_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Drink),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -11924,7 +12322,7 @@ var _user$project$Main$viewBeer = F2(
 						A2(_capitalist$elm_octicons$Octicons$color, 'white', _capitalist$elm_octicons$Octicons$defaultOptions))),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Drink some beer'),
+					_0: _elm_lang$html$Html$text(drinkText),
 					_1: {ctor: '[]'}
 				}
 			}) : A2(
@@ -11933,8 +12331,12 @@ var _user$project$Main$viewBeer = F2(
 			{ctor: '[]'});
 	});
 var _user$project$Main$UsePhone = {ctor: 'UsePhone'};
-var _user$project$Main$viewPhone = F2(
-	function (phoneUsageTimer, storyBeat) {
+var _user$project$Main$viewPhone = F5(
+	function (phoneUsageTimer, offsetX, offsetY, drunkenness, storyBeat) {
+		var left = _elm_lang$core$Basics$toString(
+			10.0 + ((offsetX * _elm_lang$core$Basics$toFloat(drunkenness)) * 0.3));
+		var top = _elm_lang$core$Basics$toString(
+			10.0 + ((offsetY * _elm_lang$core$Basics$toFloat(drunkenness)) * 0.3));
 		var canUsePhone = (_elm_lang$core$Native_Utils.cmp(phoneUsageTimer, 0) > 0) ? false : storyBeat.canUsePhone;
 		return canUsePhone ? A2(
 			_elm_lang$html$Html$div,
@@ -11949,11 +12351,23 @@ var _user$project$Main$viewPhone = F2(
 							_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
 							_1: {
 								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'top', _1: '10vh'},
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'top',
+									_1: A2(_elm_lang$core$Basics_ops['++'], top, 'vh')
+								},
 								_1: {
 									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'left', _1: '10vw'},
-									_1: {ctor: '[]'}
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'left',
+										_1: A2(_elm_lang$core$Basics_ops['++'], left, 'vw')
+									},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'transition', _1: 'top 1s linear, left 1s linear'},
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						})),
@@ -12035,17 +12449,17 @@ var _user$project$Main$view = function (model) {
 						radialCenterB,
 						A2(_elm_lang$core$Basics_ops['++'], ',', radialCenterA))))));
 	var storyBeat = function () {
-		var _p17 = _user$project$Main$getStoryBeat(model.storyKey);
-		if (_p17.ctor === 'Just') {
-			return _p17._0;
+		var _p19 = _user$project$Main$getStoryBeat(model.storyKey);
+		if (_p19.ctor === 'Just') {
+			return _p19._0;
 		} else {
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Main',
 				{
-					start: {line: 116, column: 13},
-					end: {line: 121, column: 93}
+					start: {line: 127, column: 13},
+					end: {line: 132, column: 93}
 				},
-				_p17)(
+				_p19)(
 				A2(_elm_lang$core$Basics_ops['++'], 'Tried to load an invalid story beat — ', model.storyKey));
 		}
 	}();
@@ -12140,10 +12554,10 @@ var _user$project$Main$view = function (model) {
 													_0: _user$project$Main$viewPartyLights(model.time),
 													_1: {
 														ctor: '::',
-														_0: A2(_user$project$Main$viewPhone, model.phoneUsageTimer, storyBeat),
+														_0: A5(_user$project$Main$viewPhone, model.phoneUsageTimer, model.drunkOffsetX, model.drunkOffsetY, model.drunkenness, storyBeat),
 														_1: {
 															ctor: '::',
-															_0: A2(_user$project$Main$viewBeer, model.beerUsageTimer, storyBeat),
+															_0: A6(_user$project$Main$viewDrink, model.drinkUsageTimer, model.drunkOffsetX, model.drunkOffsetY, model.drunkenness, model.storyDrinkType, storyBeat),
 															_1: {
 																ctor: '::',
 																_0: _user$project$Main$viewPhoneBattery(model.phoneBattery),
@@ -12175,6 +12589,9 @@ var _user$project$Main$view = function (model) {
 			}
 		});
 };
+var _user$project$Main$TickDrunk = function (a) {
+	return {ctor: 'TickDrunk', _0: a};
+};
 var _user$project$Main$TickDance = function (a) {
 	return {ctor: 'TickDance', _0: a};
 };
@@ -12204,7 +12621,11 @@ var _user$project$Main$subscriptions = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$millisecond * 200, _user$project$Main$TickDance),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$millisecond * 600, _user$project$Main$TickDrunk),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}

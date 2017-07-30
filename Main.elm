@@ -43,34 +43,45 @@ type alias Model =
     , phoneBattery : Int
     , phoneUsageTimer : Int
     , drunkenness : Int
-    , beerUsageTimer : Int
+    , drunkOffsetX : Float
+    , drunkOffsetY : Float
+    , drinkUsageTimer : Int
     , danceOffset : Float
     , storyKey : String
     , storyTimer : Maybe Int
     , storyDescriptionTimer : Maybe Int
     , storyHasDrunkBeer : Bool
     , storyHasMessage : Bool
+    , storyDrinkType : DrinkType
     }
+
+
+type DrinkType
+    = Beer
+    | Rum
 
 
 init : ( Model, Cmd Msg )
 init =
     ( Model
         maxEnergy
-        80
+        50
         0
         90
         0
         0
         0
         0
+        0
+        0
         "arriveAtParty"
-        -- "mehmetIntroducesHimself"
         Nothing
+        -- "thinkAboutDancingWithRum"
         -- (Just 0)
         Nothing
         False
         False
+        Beer
     , Cmd.none
     )
 
@@ -199,8 +210,8 @@ view model =
             , viewMehmet model.danceOffset storyBeat
             , viewBackgroundPeople model.danceOffset
             , viewPartyLights model.time
-            , viewPhone model.phoneUsageTimer storyBeat
-            , viewBeer model.beerUsageTimer storyBeat
+            , viewPhone model.phoneUsageTimer model.drunkOffsetX model.drunkOffsetY model.drunkenness storyBeat
+            , viewDrink model.drinkUsageTimer model.drunkOffsetX model.drunkOffsetY model.drunkenness model.storyDrinkType storyBeat
             , viewPhoneBattery model.phoneBattery
             , viewPhoneMessageIndicator
             , viewPhoneClock model.time
@@ -225,6 +236,7 @@ viewFloor energy =
             , ( "bottom", "0" )
             , ( "height", (energy |> floorHeight |> toString) ++ "vh" )
             , ( "width", "100%" )
+            , ( "transition", "height 1s linear" )
             ]
         ]
         []
@@ -478,22 +490,29 @@ viewPartyLights time =
             [ redLight, greenLight, blueLight ]
 
 
-viewPhone : Int -> StoryBeat -> Html Msg
-viewPhone phoneUsageTimer storyBeat =
+viewPhone : Int -> Float -> Float -> Int -> StoryBeat -> Html Msg
+viewPhone phoneUsageTimer offsetX offsetY drunkenness storyBeat =
     let
         canUsePhone =
             if phoneUsageTimer > 0 then
                 False
             else
                 storyBeat.canUsePhone
+
+        top =
+            toString (10.0 + (offsetY * (toFloat drunkenness) * 0.3))
+
+        left =
+            toString (10.0 + (offsetX * (toFloat drunkenness) * 0.3))
     in
         if canUsePhone then
             div
                 [ style <|
                     buttonStyle
                         ++ [ ( "position", "absolute" )
-                           , ( "top", "10vh" )
-                           , ( "left", "10vw" )
+                           , ( "top", top ++ "vh" )
+                           , ( "left", left ++ "vw" )
+                           , ( "transition", "top 1s linear, left 1s linear" )
                            ]
                 , onClick UsePhone
                 ]
@@ -507,24 +526,39 @@ viewPhone phoneUsageTimer storyBeat =
             span [] []
 
 
-viewBeer : Int -> StoryBeat -> Html Msg
-viewBeer beerUsageTimer storyBeat =
+viewDrink : Int -> Float -> Float -> Int -> DrinkType -> StoryBeat -> Html Msg
+viewDrink drinkUsageTimer offsetX offsetY drunkenness drinkType storyBeat =
     let
-        canDrinkBeer =
-            if beerUsageTimer > 0 then
+        canDrink =
+            if drinkUsageTimer > 0 then
                 False
             else
-                storyBeat.canDrinkBeer
+                storyBeat.canDrink
+
+        drinkText =
+            case drinkType of
+                Beer ->
+                    "Drink some beer"
+
+                Rum ->
+                    "Sip your rum"
+
+        top =
+            toString (20.0 + (offsetY * (toFloat drunkenness) * 0.3))
+
+        left =
+            toString (20.0 + (offsetX * (toFloat drunkenness) * 0.3))
     in
-        if canDrinkBeer then
+        if canDrink then
             div
                 [ style <|
                     buttonStyle
                         ++ [ ( "position", "absolute" )
-                           , ( "top", "20vh" )
-                           , ( "left", "20vw" )
+                           , ( "top", top ++ "vh" )
+                           , ( "left", left ++ "vw" )
+                           , ( "transition", "top 1s linear, left 1s linear" )
                            ]
-                , onClick DrinkBeer
+                , onClick Drink
                 ]
                 [ Icon.defaultOptions
                     |> Icon.color "white"
@@ -532,7 +566,7 @@ viewBeer beerUsageTimer storyBeat =
                     -- |> Icon.style "vertical-align"
                     |>
                         Icon.zap
-                , text "Drink some beer"
+                , text drinkText
                 ]
         else
             span [] []
@@ -621,10 +655,13 @@ type Msg
     | TickMinute Time
     | TickConfidence Time
     | TickDance Time
+    | TickDrunk Time
     | UsePhone
-    | DrinkBeer
+    | Drink
     | GoToStoryBeat String
     | UpdateDanceOffset Float
+    | UpdateDrunkOffsetX Float
+    | UpdateDrunkOffsetY Float
 
 
 updateWithCmds : Msg -> Model -> ( Model, Cmd Msg )
@@ -636,6 +673,14 @@ updateWithCmds msg model =
         case msg of
             TickDance time ->
                 ( newModel, Random.generate UpdateDanceOffset (Random.float 0 1) )
+
+            TickDrunk time ->
+                ( newModel
+                , Cmd.batch
+                    [ Random.generate UpdateDrunkOffsetX (Random.float 0 1)
+                    , Random.generate UpdateDrunkOffsetY (Random.float 0 1)
+                    ]
+                )
 
             UsePhone ->
                 ( newModel, playMessagingSound () )
@@ -685,9 +730,9 @@ update msg model =
                     else
                         0
 
-                beerUsageTimer =
-                    if model.beerUsageTimer > 0 then
-                        model.beerUsageTimer - 1
+                drinkUsageTimer =
+                    if model.drinkUsageTimer > 0 then
+                        model.drinkUsageTimer - 1
                     else
                         0
 
@@ -711,7 +756,7 @@ update msg model =
                     | energy = energy
                     , time = model.time + (1 * minutesPerSecond)
                     , phoneUsageTimer = phoneUsageTimer
-                    , beerUsageTimer = beerUsageTimer
+                    , drinkUsageTimer = drinkUsageTimer
                     , storyTimer = storyTimer
                     , storyDescriptionTimer = storyDescriptionTimer
                 }
@@ -742,25 +787,32 @@ update msg model =
         TickDance time ->
             model
 
+        TickDrunk time ->
+            model
+
         UsePhone ->
             { model
                 | phoneBattery = model.phoneBattery - 1
                 , phoneUsageTimer = 6
             }
 
-        DrinkBeer ->
+        Drink ->
             let
                 drunkIncrement =
-                    if model.drunkenness < 2 then
+                    if model.drunkenness == 0 then
                         1
                     else
-                        floor ((toFloat model.drunkenness) / 2.0)
+                        model.drunkenness
 
+                -- if model.drunkenness < 2 then
+                --     1
+                -- else
+                --     floor ((toFloat model.drunkenness) / 2.0)
                 newModel =
                     { model
                         | drunkenness = model.drunkenness + drunkIncrement
                         , confidence = model.confidence + 1
-                        , beerUsageTimer = 10
+                        , drinkUsageTimer = 10
                         , storyHasDrunkBeer = True
                     }
             in
@@ -794,15 +846,49 @@ update msg model =
 
                         Nothing ->
                             Nothing
+
+                confidence =
+                    case maybeStoryBeat of
+                        Just beat ->
+                            model.confidence + beat.confidenceBoost
+
+                        Nothing ->
+                            model.confidence
+
+                energy =
+                    Maybe.Extra.unwrap
+                        model.energy
+                        (\beat -> model.energy + beat.energyBoost)
+                        maybeStoryBeat
+
+                storyDrinkType =
+                    Maybe.Extra.unwrap
+                        model.storyDrinkType
+                        (\beat ->
+                            Maybe.Extra.unwrap
+                                model.storyDrinkType
+                                (\drinkType -> drinkType)
+                                beat.changeDrinkType
+                        )
+                        maybeStoryBeat
             in
                 { model
-                    | storyKey = storyKey
+                    | energy = energy
+                    , confidence = confidence
+                    , storyKey = storyKey
                     , storyTimer = storyTimer
                     , storyDescriptionTimer = storyDescriptionTimer
+                    , storyDrinkType = storyDrinkType
                 }
 
         UpdateDanceOffset danceOffset ->
             { model | danceOffset = danceOffset }
+
+        UpdateDrunkOffsetX drunkOffsetX ->
+            { model | drunkOffsetX = drunkOffsetX }
+
+        UpdateDrunkOffsetY drunkOffsetY ->
+            { model | drunkOffsetY = drunkOffsetY }
 
 
 
@@ -822,6 +908,7 @@ subscriptions model =
         , every (second * 60) TickMinute
         , every (second * 6) TickConfidence
         , every (millisecond * 200) TickDance
+        , every (millisecond * 600) TickDrunk
         ]
 
 
@@ -839,7 +926,10 @@ type alias StoryBeat =
     , timeUntil : Maybe ( Int, String )
     , canUsePhone : Bool
     , phoneHasMessage : Bool
-    , canDrinkBeer : Bool
+    , canDrink : Bool
+    , confidenceBoost : Int
+    , energyBoost : Int
+    , changeDrinkType : Maybe DrinkType
     , playerPosition : ( Int, Int )
     , simonPosition : ( Int, Int )
     , annaPosition : ( Int, Int )
@@ -857,6 +947,9 @@ defaultStoryBeat =
         False
         False
         False
+        0
+        0
+        Nothing
         ( 29, 0 )
         ( 60, 18 )
         ( 56, 13 )
@@ -889,9 +982,24 @@ withCanUsePhone beat =
     { beat | canUsePhone = True }
 
 
-withCanDrinkBeer : StoryBeat -> StoryBeat
-withCanDrinkBeer beat =
-    { beat | canDrinkBeer = True }
+withCanDrink : StoryBeat -> StoryBeat
+withCanDrink beat =
+    { beat | canDrink = True }
+
+
+withConfidenceBoost : Int -> StoryBeat -> StoryBeat
+withConfidenceBoost confidenceBoost beat =
+    { beat | confidenceBoost = confidenceBoost }
+
+
+withEnergyBoost : Int -> StoryBeat -> StoryBeat
+withEnergyBoost energyBoost beat =
+    { beat | energyBoost = energyBoost }
+
+
+withChangeDrinkType : DrinkType -> StoryBeat -> StoryBeat
+withChangeDrinkType drinkType beat =
+    { beat | changeDrinkType = Just drinkType }
 
 
 withPlayerPosition : Int -> Int -> StoryBeat -> StoryBeat
@@ -939,9 +1047,19 @@ story =
         , yeahItsFun
         , askForACarlsberg
         , mehmetBringsCarlsberg
+        , drinkYourCarlsberg
+        , thinkAboutDancing
         , askForARum
         , comeBackWithRum
+        , thinkAboutDancingWithRum
         , turnDownDrink
+        , goDanceWithPolly
+        , musicSwells
+        , tapFoot
+        , pollyDances
+        , copyPollysDanceMoves
+        , restFromDancingWithPolly
+        , hangBack
         ]
 
 
@@ -996,10 +1114,10 @@ takeTheBeer =
     ( "takeTheBeer"
     , defaultStoryBeat
         |> withDescription
-            ("You take the beer. Its wet surface dampens your hand. You hold it "
+            ("You take the beer. The wet glass dampens your hand. You hold it "
                 ++ "up to your mouth and feel the coldness on your lips."
             )
-        |> withCanDrinkBeer
+        |> withCanDrink
         |> withSimonPosition 39 26
     )
 
@@ -1015,8 +1133,9 @@ drinkBeerFirstTime =
             )
         |> withTimeUntil 12 "weirdCarpet"
         |> withClearDescriptionAfter 8
+        |> withConfidenceBoost 10
         |> withCanUsePhone
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1030,7 +1149,7 @@ weirdCarpet =
             )
         |> withClearDescriptionAfter 6
         |> withCanUsePhone
-        |> withCanDrinkBeer
+        |> withCanDrink
         |> withTimeUntil 8 "messageFromSimon"
     )
 
@@ -1055,7 +1174,7 @@ yeahMateFine =
         |> withClearDescriptionAfter 4
         |> withTimeUntil 8 "simonIntroducesAnna"
         |> withCanUsePhone
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1064,10 +1183,11 @@ askHowLong =
     ( "askHowLong"
     , defaultStoryBeat
         |> withDescription "\"Err, till 2am probs\""
+        |> withConfidenceBoost -10
         |> withClearDescriptionAfter 4
         |> withTimeUntil 12 "simonIntroducesAnna"
         |> withCanUsePhone
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1083,9 +1203,10 @@ simonIntroducesAnna =
             [ ( "\"Hey Anna, alright?\"", "heyAnna" )
             , ( "\"Umm, hi.\"", "ummAnna" )
             ]
+        |> withTimeUntil 8 "ignoredThem"
         |> withSimonPosition 42 30
         |> withAnnaPosition 39 26
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1098,8 +1219,9 @@ heyAnna =
             [ ( "\"Ok, why not.\"", "danceWithAnna" )
             , ( "\"A bit later, perhaps.\"", "avoidDanceWithAnna" )
             ]
+        |> withConfidenceBoost 20
         |> withAnnaPosition 39 26
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1109,10 +1231,12 @@ ummAnna =
     , defaultStoryBeat
         |> withDescription "\"Hi, err, do you want to dance with us?\" she asks."
         |> withActions
-            [ ( "nah", "nah" ) ]
+            [ ( "\"Ok, why not.\"", "danceWithAnna" )
+            , ( "\"A bit later, perhaps.\"", "avoidDanceWithAnna" )
+            ]
         |> withSimonPosition 42 30
         |> withAnnaPosition 39 26
-        |> withCanDrinkBeer
+        |> withCanDrink
         |> withCanUsePhone
     )
 
@@ -1121,7 +1245,8 @@ danceWithAnna : ( String, StoryBeat )
 danceWithAnna =
     ( "danceWithAnna"
     , defaultStoryBeat
-        |> withCanDrinkBeer
+        |> withConfidenceBoost 10
+        |> withCanDrink
         |> withTimeUntil 8 "tiredFromDancing"
         |> withPlayerPosition 58 18
         |> withSimonPosition 68 16
@@ -1146,8 +1271,9 @@ keepDancing : ( String, StoryBeat )
 keepDancing =
     ( "keepDancing"
     , defaultStoryBeat
+        |> withConfidenceBoost 3
         |> withTimeUntil 8 "tiredFromDancing"
-        |> withCanDrinkBeer
+        |> withCanDrink
         |> withPlayerPosition 58 18
         |> withSimonPosition 68 16
     )
@@ -1159,7 +1285,7 @@ restFromDancing =
     , defaultStoryBeat
         |> withTimeUntil 8 "mehmetIntroducesHimself"
         |> withCanUsePhone
-        |> withCanDrinkBeer
+        |> withCanDrink
     )
 
 
@@ -1173,6 +1299,7 @@ mehmetIntroducesHimself =
             [ ( "\"It's not really my thing.\"", "notMyThing" )
             , ( "\"Yeah man, it's fun.\"", "yeahItsFun" )
             ]
+        |> withTimeUntil 8 "ignoredThem"
         |> withMehmetPosition 38 27
     )
 
@@ -1200,6 +1327,7 @@ yeahItsFun =
             [ ( "\"Yeah a Carlsberg or something, cheers mate.\"", "askForACarlsberg" )
             , ( "\"Actually, you reckon they've got rum?\"", "askForARum" )
             ]
+        |> withConfidenceBoost 5
         |> withMehmetPosition 38 27
     )
 
@@ -1218,7 +1346,31 @@ mehmetBringsCarlsberg : ( String, StoryBeat )
 mehmetBringsCarlsberg =
     ( "mehmetBringsCarlsberg"
     , defaultStoryBeat
+        |> withDescription "\"Catch you later bruv.\""
+        |> withActions [ ( "\"Yeah mate, thanks for the drink.\"", "drinkYourCarlsberg" ) ]
         |> withMehmetPosition 38 27
+    )
+
+
+drinkYourCarlsberg : ( String, StoryBeat )
+drinkYourCarlsberg =
+    ( "drinkYourCarlsberg"
+    , defaultStoryBeat
+        |> withCanDrink
+        |> withCanUsePhone
+        |> withTimeUntil 8 "thinkAboutDancing"
+    )
+
+
+thinkAboutDancing : ( String, StoryBeat )
+thinkAboutDancing =
+    ( "thinkAboutDancing"
+    , defaultStoryBeat
+        |> withDescription "You think about going to dance again."
+        |> withActions
+            [ ( "Go dance.", "goDanceWithPolly" )
+            , ( "Hang back.", "hangBack" )
+            ]
     )
 
 
@@ -1230,6 +1382,7 @@ askForARum =
             ("Mehmet claps you on the back, \"I like your style,\" he grins "
                 ++ "like a madman as you walk over to the drinks table."
             )
+        |> withConfidenceBoost 5
         |> withMehmetPosition 120 18
         |> withPlayerPosition 120 24
         |> withTimeUntil 6 "comeBackWithRum"
@@ -1240,6 +1393,108 @@ comeBackWithRum : ( String, StoryBeat )
 comeBackWithRum =
     ( "comeBackWithRum"
     , defaultStoryBeat
+        |> withCanDrink
+        |> withCanUsePhone
+        |> withChangeDrinkType Rum
+        |> withTimeUntil 8 "thinkAboutDancingWithRum"
+    )
+
+
+thinkAboutDancingWithRum : ( String, StoryBeat )
+thinkAboutDancingWithRum =
+    ( "thinkAboutDancingWithRum"
+    , defaultStoryBeat
+        |> withDescription "You think you could probably dance with your rum in one hand."
+        |> withActions
+            [ ( "Go dance.", "goDanceWithPolly" )
+            , ( "Hang back.", "hangBack" )
+            ]
+    )
+
+
+goDanceWithPolly : ( String, StoryBeat )
+goDanceWithPolly =
+    ( "goDanceWithPolly"
+    , defaultStoryBeat
+        |> withTimeUntil 4 "musicSwells"
+        |> withPlayerPosition 68 18
+        |> withSimonPosition 58 18
+        |> withEnergyBoost -5
+    )
+
+
+musicSwells : ( String, StoryBeat )
+musicSwells =
+    ( "musicSwells"
+    , defaultStoryBeat
+        |> withDescription
+            ("The music swells, you feel its rhythm in your bones as you close your eyes.")
+        |> withActions [ ( "Tap your foot.", "tapFoot" ) ]
+        |> withPlayerPosition 68 18
+        |> withSimonPosition 58 18
+    )
+
+
+tapFoot : ( String, StoryBeat )
+tapFoot =
+    ( "tapFoot"
+    , defaultStoryBeat
+        |> withDescription "Tap. Tap tap."
+        |> withEnergyBoost -5
+        |> withClearDescriptionAfter 3
+        |> withTimeUntil 6 "pollyDances"
+        |> withPlayerPosition 68 18
+        |> withSimonPosition 58 18
+    )
+
+
+pollyDances : ( String, StoryBeat )
+pollyDances =
+    ( "pollyDances"
+    , defaultStoryBeat
+        |> withDescription "You open your eyes, Polly is looking at you, shimmying left and right."
+        |> withActions
+            [ ( "Copy Polly's dance moves.", "copyPollysDanceMoves" )
+            , ( "Take a break", "restFromDancingWithPolly" )
+            ]
+        |> withCanDrink
+        |> withConfidenceBoost 5
+        |> withEnergyBoost -5
+        |> withPlayerPosition 68 18
+        |> withSimonPosition 58 18
+    )
+
+
+copyPollysDanceMoves : ( String, StoryBeat )
+copyPollysDanceMoves =
+    ( "copyPollysDanceMoves"
+    , defaultStoryBeat
+        |> withDescription "copyPollysDanceMoves"
+        |> withCanDrink
+        |> withConfidenceBoost 5
+        |> withEnergyBoost -5
+        |> withPlayerPosition 68 18
+        |> withSimonPosition 58 18
+    )
+
+
+restFromDancingWithPolly : ( String, StoryBeat )
+restFromDancingWithPolly =
+    ( "restFromDancingWithPolly"
+    , defaultStoryBeat
+        |> withDescription "restFromDancingWithPolly"
+        |> withCanDrink
+        |> withCanUsePhone
+        |> withConfidenceBoost -5
+        |> withEnergyBoost 10
+    )
+
+
+hangBack : ( String, StoryBeat )
+hangBack =
+    ( "hangBack"
+    , defaultStoryBeat
+        |> withEnergyBoost 10
     )
 
 
@@ -1247,5 +1502,15 @@ turnDownDrink : ( String, StoryBeat )
 turnDownDrink =
     ( "turnDownDrink"
     , defaultStoryBeat
+        |> withCanUsePhone
+    )
+
+
+ignoredThem : ( String, StoryBeat )
+ignoredThem =
+    ( "ignoredThem"
+    , defaultStoryBeat
+        |> withDescription "You ignored them."
+        |> withCanDrink
         |> withCanUsePhone
     )
