@@ -88,7 +88,7 @@ init =
 
 minutesPerSecond : Float
 minutesPerSecond =
-    0.5
+    1
 
 
 hourStart : Int
@@ -103,7 +103,7 @@ hourFinish =
 
 maxEnergy : Int
 maxEnergy =
-    ((hourFinish - hourStart) * 60 |> toFloat) * minutesPerSecond |> floor
+    ((hourFinish - hourStart - 1) * 60 |> toFloat) * minutesPerSecond |> floor
 
 
 maxConfidence : Int
@@ -114,6 +114,21 @@ maxConfidence =
 getStoryBeat : String -> Maybe StoryBeat
 getStoryBeat storyKey =
     Dict.get storyKey story
+
+
+getPlayerPosition : Model -> ( Int, Int )
+getPlayerPosition model =
+    let
+        maybeBeat =
+            getStoryBeat model.storyKey
+
+        ( x, y ) =
+            Maybe.Extra.unwrap
+                ( 29, 0 )
+                (\beat -> beat.playerPosition)
+                maybeBeat
+    in
+        ( x, y )
 
 
 
@@ -177,12 +192,19 @@ view model =
 
         circleSize =
             toString (40 + ((100 - 40) * energyRatio))
+
+        ( circleX, _ ) =
+            -- getPlayerPosition model
+            ( 29, 0 )
     in
         div
             [ style
                 [ ( "background-image"
                   , ("radial-gradient("
-                        ++ "circle at 33% 56%, "
+                        ++ "circle at "
+                        ++ (toString (circleX + 4))
+                        ++ "vw"
+                        ++ " 33%, "
                         ++ "rgba("
                         ++ radialCenterRGBA
                         ++ ") 0, "
@@ -213,8 +235,9 @@ view model =
             , viewPhone model.phoneUsageTimer model.drunkOffsetX model.drunkOffsetY model.drunkenness storyBeat
             , viewDrink model.drinkUsageTimer model.drunkOffsetX model.drunkOffsetY model.drunkenness model.storyDrinkType storyBeat
             , viewPhoneBattery model.phoneBattery
-            , viewPhoneMessageIndicator
             , viewPhoneClock model.time
+            , viewPhoneDataConnection
+            , viewPhoneNetworkConnection
             , viewStoryDescription model.storyDescriptionTimer storyBeat
             ]
 
@@ -257,9 +280,9 @@ viewPhoneBattery phoneBattery =
     div
         [ style
             [ ( "position", "absolute" )
-            , ( "top", "3vh" )
-            , ( "right", "2vw" )
-            , ( "width", "8vw" )
+            , ( "top", "25px" )
+            , ( "right", "25px" )
+            , ( "width", "120px" )
             , ( "padding", "2px" )
             , ( "border", "2px solid #ffffff" )
             , ( "border-radius", "6px" )
@@ -269,27 +292,11 @@ viewPhoneBattery phoneBattery =
             [ style
                 [ ( "background", "#ffffff" )
                 , ( "border-radius", "3px" )
-                , ( "height", "4vh" )
+                , ( "height", "25px" )
                 , ( "width", (toString phoneBattery) ++ "%" )
                 ]
             ]
             []
-        ]
-
-
-viewPhoneMessageIndicator : Html Msg
-viewPhoneMessageIndicator =
-    div
-        [ style
-            [ ( "position", "absolute" )
-            , ( "top", "3.1vh" )
-            , ( "right", "18vw" )
-            ]
-        ]
-        [ Icon.defaultOptions
-            |> Icon.color "white"
-            |> Icon.size 36
-            |> Icon.mail
         ]
 
 
@@ -314,11 +321,57 @@ viewPhoneClock time =
         div
             [ style
                 [ ( "position", "absolute" )
-                , ( "top", "3.1vh" )
-                , ( "right", "12vw" )
+                , ( "top", "31px" )
+                , ( "right", "160px" )
+                , ( "font-family", "Courier" )
+                , ( "font-size", "1.3rem" )
                 ]
             ]
             [ text (hoursString ++ ":" ++ minutes) ]
+
+
+viewPhoneDataConnection : Html Msg
+viewPhoneDataConnection =
+    div
+        [ style
+            [ ( "position", "absolute" )
+            , ( "top", "31px" )
+            , ( "right", "240px" )
+            , ( "font-family", "Courier" )
+            , ( "font-size", "1.3rem" )
+            ]
+        ]
+        [ text "4G" ]
+
+
+viewPhoneNetworkConnection : Html Msg
+viewPhoneNetworkConnection =
+    let
+        bar x height colour =
+            div
+                [ style
+                    [ ( "position", "absolute" )
+                    , ( "bottom", "0" )
+                    , ( "left", (toString (x * 6)) ++ "px" )
+                    , ( "background", colour )
+                    , ( "height", (toString (height * 4)) ++ "px" )
+                    , ( "width", "4px" )
+                    ]
+                ]
+                []
+    in
+        div
+            [ style
+                [ ( "position", "absolute" )
+                , ( "top", "49px" )
+                , ( "right", "310px" )
+                ]
+            ]
+            [ bar 1 1 "white"
+            , bar 2 2 "white"
+            , bar 3 3 "white"
+            , bar 4 4 "grey"
+            ]
 
 
 viewDrunkenness : Int -> Html Msg
@@ -342,7 +395,7 @@ viewPlayer energy storyBeat =
             0
             [ ( "bottom", (toString y) ++ "vh" )
             , ( "left", (toString x) ++ "vw" )
-            , ( "background", "#000000" )
+            , ( "background", "#333333" )
             ]
 
 
@@ -390,29 +443,33 @@ viewMehmet danceOffset storyBeat =
 
 viewPolly : Float -> StoryBeat -> Html Msg
 viewPolly danceOffset storyBeat =
-    viewPerson 0.9
-        danceOffset
-        [ ( "bottom", "12vh" )
-        , ( "left", "69vw" )
-        , ( "background", "#9C31CC" )
-        ]
+    let
+        ( x, y ) =
+            storyBeat.pollyPosition
+    in
+        viewPerson 0.9
+            danceOffset
+            [ ( "bottom", (toString y) ++ "vh" )
+            , ( "left", (toString x) ++ "vw" )
+            , ( "background", "#9C31CC" )
+            ]
 
 
 viewBackgroundPeople : Float -> Html Msg
 viewBackgroundPeople danceOffset =
     div []
-        [ viewPerson 0.2 danceOffset [ ( "bottom", "8vh" ), ( "left", "-3vw" ), ( "background", "#444" ) ]
-        , viewPerson -0.2 danceOffset [ ( "bottom", "5vh" ), ( "left", "-6vw" ) ]
-        , viewPerson 0.1 danceOffset [ ( "bottom", "10vh" ), ( "left", "19vw" ), ( "background", "#555" ) ]
-        , viewPerson -0.2 danceOffset [ ( "bottom", "12vh" ), ( "left", "10vw" ), ( "background", "#444" ) ]
-        , viewPerson -0.1 danceOffset [ ( "bottom", "6vh" ), ( "left", "14vw" ) ]
-        , viewPerson 0.1 danceOffset [ ( "bottom", "1vh" ), ( "left", "38vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.2 danceOffset [ ( "bottom", "-1vh" ), ( "left", "28vw" ), ( "background", "#555" ) ]
-        , viewPerson -0.1 danceOffset [ ( "bottom", "-3vh" ), ( "left", "30vw" ) ]
-        , viewPerson -0.2 danceOffset [ ( "bottom", "16vh" ), ( "left", "88vw" ), ( "background", "#222" ) ]
-        , viewPerson -0.1 danceOffset [ ( "bottom", "14vh" ), ( "left", "92vw" ), ( "background", "#333" ) ]
-        , viewPerson 0.1 danceOffset [ ( "bottom", "7vh" ), ( "left", "81vw" ), ( "background", "#444" ) ]
-        , viewPerson 0.2 danceOffset [ ( "bottom", "4vh" ), ( "left", "87vw" ), ( "background", "#555" ) ]
+        [ viewPerson 0.2 danceOffset [ ( "bottom", "18vh" ), ( "left", "-3vw" ), ( "background", "#444" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "15vh" ), ( "left", "-6vw" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "20vh" ), ( "left", "19vw" ), ( "background", "#555" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "22vh" ), ( "left", "10vw" ), ( "background", "#444" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "16vh" ), ( "left", "14vw" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "11vh" ), ( "left", "38vw" ), ( "background", "#444" ) ]
+        , viewPerson 0.2 danceOffset [ ( "bottom", "9vh" ), ( "left", "28vw" ), ( "background", "#555" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "7vh" ), ( "left", "30vw" ) ]
+        , viewPerson -0.2 danceOffset [ ( "bottom", "26vh" ), ( "left", "88vw" ), ( "background", "#222" ) ]
+        , viewPerson -0.1 danceOffset [ ( "bottom", "24vh" ), ( "left", "92vw" ), ( "background", "#333" ) ]
+        , viewPerson 0.1 danceOffset [ ( "bottom", "17vh" ), ( "left", "81vw" ), ( "background", "#444" ) ]
+        , viewPerson 0.2 danceOffset [ ( "bottom", "14vh" ), ( "left", "87vw" ), ( "background", "#555" ) ]
         ]
 
 
@@ -643,7 +700,7 @@ viewStoryAction ( label, nextStoryKey ) =
 
 floorHeight : Int -> Float
 floorHeight energy =
-    (56 - ((56 - 33) * ((toFloat energy) / (toFloat maxEnergy))))
+    (66 - ((66 - 43) * ((toFloat energy) / (toFloat maxEnergy))))
 
 
 
@@ -792,7 +849,7 @@ update msg model =
 
         UsePhone ->
             { model
-                | phoneBattery = model.phoneBattery - 1
+                | phoneBattery = model.phoneBattery - 2
                 , phoneUsageTimer = 6
             }
 
@@ -906,7 +963,7 @@ subscriptions model =
             )
             Tick
         , every (second * 60) TickMinute
-        , every (second * 6) TickConfidence
+        , every (second * 3) TickConfidence
         , every (millisecond * 200) TickDance
         , every (millisecond * 600) TickDrunk
         ]
@@ -951,10 +1008,10 @@ defaultStoryBeat =
         0
         Nothing
         ( 29, 0 )
-        ( 60, 18 )
-        ( 56, 13 )
-        ( 62, 7 )
-        ( 69, 12 )
+        ( 60, 28 )
+        ( 56, 23 )
+        ( 62, 17 )
+        ( 69, 22 )
 
 
 withDescription : String -> StoryBeat -> StoryBeat
@@ -1042,6 +1099,7 @@ story =
         , tiredFromDancing
         , keepDancing
         , restFromDancing
+        , avoidDanceWithAnna
         , mehmetIntroducesHimself
         , notMyThing
         , yeahItsFun
@@ -1053,6 +1111,9 @@ story =
         , comeBackWithRum
         , thinkAboutDancingWithRum
         , turnDownDrink
+        , thirsty
+        , getACarlsberg
+        , getARum
         , goDanceWithPolly
         , musicSwells
         , tapFoot
@@ -1060,6 +1121,26 @@ story =
         , copyPollysDanceMoves
         , restFromDancingWithPolly
         , hangBack
+        , dadDancing
+        , feetHurt
+        , spillDrink
+        , tryToKeepDancing
+        , mehmetTakesABreakWithYou
+        , takeABreak
+        , chatWithMehmet
+        , askAboutWallflower
+        , avoidAndGoHome
+        , shouldHangOut
+        , hangOutNextWeek
+        , imBusy
+        , simonCallsItANight
+        , readInterestingArticle
+        , continueReadingArticle
+        , finishReadingArticle
+        , lookAtFunnyPictures
+        , continueLookingAtPictures
+        , simonAsksToDance
+        , getAnUberHome
         ]
 
 
@@ -1073,7 +1154,7 @@ arriveAtParty =
                 ++ "out of energy."
             )
         |> withActions [ ( "Go into the house", "enterParty" ) ]
-        |> withPlayerPosition 2 24
+        |> withPlayerPosition 3 34
     )
 
 
@@ -1105,7 +1186,7 @@ simonOffersBeer =
     , defaultStoryBeat
         |> withDescription "Your friend, Simon, comes over and offers you a beer."
         |> withActions [ ( "Take the beer", "takeTheBeer" ) ]
-        |> withSimonPosition 39 26
+        |> withSimonPosition 39 36
     )
 
 
@@ -1118,7 +1199,7 @@ takeTheBeer =
                 ++ "up to your mouth and feel the coldness on your lips."
             )
         |> withCanDrink
-        |> withSimonPosition 39 26
+        |> withSimonPosition 39 36
     )
 
 
@@ -1203,9 +1284,10 @@ simonIntroducesAnna =
             [ ( "\"Hey Anna, alright?\"", "heyAnna" )
             , ( "\"Umm, hi.\"", "ummAnna" )
             ]
-        |> withTimeUntil 8 "ignoredThem"
-        |> withSimonPosition 42 30
-        |> withAnnaPosition 39 26
+        -- |> withTimeUntil 8 "ignoredThem"
+        |>
+            withSimonPosition 42 40
+        |> withAnnaPosition 39 36
         |> withCanDrink
     )
 
@@ -1220,7 +1302,7 @@ heyAnna =
             , ( "\"A bit later, perhaps.\"", "avoidDanceWithAnna" )
             ]
         |> withConfidenceBoost 20
-        |> withAnnaPosition 39 26
+        |> withAnnaPosition 39 36
         |> withCanDrink
     )
 
@@ -1234,8 +1316,8 @@ ummAnna =
             [ ( "\"Ok, why not.\"", "danceWithAnna" )
             , ( "\"A bit later, perhaps.\"", "avoidDanceWithAnna" )
             ]
-        |> withSimonPosition 42 30
-        |> withAnnaPosition 39 26
+        |> withSimonPosition 42 40
+        |> withAnnaPosition 39 36
         |> withCanDrink
         |> withCanUsePhone
     )
@@ -1248,8 +1330,8 @@ danceWithAnna =
         |> withConfidenceBoost 10
         |> withCanDrink
         |> withTimeUntil 8 "tiredFromDancing"
-        |> withPlayerPosition 58 18
-        |> withSimonPosition 68 16
+        |> withPlayerPosition 58 28
+        |> withSimonPosition 68 26
     )
 
 
@@ -1262,8 +1344,8 @@ tiredFromDancing =
             [ ( "Keep dancing.", "keepDancing" )
             , ( "Take a rest.", "restFromDancing" )
             ]
-        |> withPlayerPosition 58 18
-        |> withSimonPosition 68 16
+        |> withPlayerPosition 58 28
+        |> withSimonPosition 68 26
     )
 
 
@@ -1274,8 +1356,8 @@ keepDancing =
         |> withConfidenceBoost 3
         |> withTimeUntil 8 "tiredFromDancing"
         |> withCanDrink
-        |> withPlayerPosition 58 18
-        |> withSimonPosition 68 16
+        |> withPlayerPosition 58 28
+        |> withSimonPosition 68 26
     )
 
 
@@ -1289,6 +1371,13 @@ restFromDancing =
     )
 
 
+avoidDanceWithAnna : ( String, StoryBeat )
+avoidDanceWithAnna =
+    ( "avoidDanceWithAnna"
+    , defaultStoryBeat
+    )
+
+
 mehmetIntroducesHimself : ( String, StoryBeat )
 mehmetIntroducesHimself =
     ( "mehmetIntroducesHimself"
@@ -1299,8 +1388,9 @@ mehmetIntroducesHimself =
             [ ( "\"It's not really my thing.\"", "notMyThing" )
             , ( "\"Yeah man, it's fun.\"", "yeahItsFun" )
             ]
-        |> withTimeUntil 8 "ignoredThem"
-        |> withMehmetPosition 38 27
+        -- |> withTimeUntil 8 "ignoredThem"
+        |>
+            withMehmetPosition 38 37
     )
 
 
@@ -1314,7 +1404,7 @@ notMyThing =
             , ( "\"Actually, you reckon they've got rum?\"", "askForARum" )
             , ( "\"I'm ok, thanks\"", "turnDownDrink" )
             ]
-        |> withMehmetPosition 42 30
+        |> withMehmetPosition 42 40
     )
 
 
@@ -1328,7 +1418,7 @@ yeahItsFun =
             , ( "\"Actually, you reckon they've got rum?\"", "askForARum" )
             ]
         |> withConfidenceBoost 5
-        |> withMehmetPosition 38 27
+        |> withMehmetPosition 38 37
     )
 
 
@@ -1337,8 +1427,9 @@ askForACarlsberg =
     ( "askForACarlsberg"
     , defaultStoryBeat
         |> withDescription "\"Righto bruv, two ticks.\""
-        |> withMehmetPosition 120 18
+        |> withMehmetPosition 120 28
         |> withTimeUntil 6 "mehmetBringsCarlsberg"
+        |> withCanUsePhone
     )
 
 
@@ -1348,7 +1439,7 @@ mehmetBringsCarlsberg =
     , defaultStoryBeat
         |> withDescription "\"Catch you later bruv.\""
         |> withActions [ ( "\"Yeah mate, thanks for the drink.\"", "drinkYourCarlsberg" ) ]
-        |> withMehmetPosition 38 27
+        |> withMehmetPosition 38 37
     )
 
 
@@ -1383,8 +1474,8 @@ askForARum =
                 ++ "like a madman as you walk over to the drinks table."
             )
         |> withConfidenceBoost 5
-        |> withMehmetPosition 120 18
-        |> withPlayerPosition 120 24
+        |> withMehmetPosition 120 28
+        |> withPlayerPosition 120 34
         |> withTimeUntil 6 "comeBackWithRum"
     )
 
@@ -1417,8 +1508,8 @@ goDanceWithPolly =
     ( "goDanceWithPolly"
     , defaultStoryBeat
         |> withTimeUntil 4 "musicSwells"
-        |> withPlayerPosition 68 18
-        |> withSimonPosition 58 18
+        |> withPlayerPosition 68 28
+        |> withSimonPosition 58 28
         |> withEnergyBoost -5
     )
 
@@ -1430,8 +1521,8 @@ musicSwells =
         |> withDescription
             ("The music swells, you feel its rhythm in your bones as you close your eyes.")
         |> withActions [ ( "Tap your foot.", "tapFoot" ) ]
-        |> withPlayerPosition 68 18
-        |> withSimonPosition 58 18
+        |> withPlayerPosition 68 28
+        |> withSimonPosition 58 28
     )
 
 
@@ -1443,8 +1534,8 @@ tapFoot =
         |> withEnergyBoost -5
         |> withClearDescriptionAfter 3
         |> withTimeUntil 6 "pollyDances"
-        |> withPlayerPosition 68 18
-        |> withSimonPosition 58 18
+        |> withPlayerPosition 68 28
+        |> withSimonPosition 58 28
     )
 
 
@@ -1460,8 +1551,8 @@ pollyDances =
         |> withCanDrink
         |> withConfidenceBoost 5
         |> withEnergyBoost -5
-        |> withPlayerPosition 68 18
-        |> withSimonPosition 58 18
+        |> withPlayerPosition 68 28
+        |> withSimonPosition 58 28
     )
 
 
@@ -1470,11 +1561,141 @@ copyPollysDanceMoves =
     ( "copyPollysDanceMoves"
     , defaultStoryBeat
         |> withDescription "copyPollysDanceMoves"
+        |> withTimeUntil 8 "dadDancing"
         |> withCanDrink
         |> withConfidenceBoost 5
         |> withEnergyBoost -5
-        |> withPlayerPosition 68 18
-        |> withSimonPosition 58 18
+        |> withPlayerPosition 68 28
+        |> withSimonPosition 58 28
+    )
+
+
+dadDancing : ( String, StoryBeat )
+dadDancing =
+    ( "dadDancing"
+    , defaultStoryBeat
+        |> withDescription "dadDancing"
+        |> withTimeUntil 6 "feetHurt"
+    )
+
+
+feetHurt : ( String, StoryBeat )
+feetHurt =
+    ( "feetHurt"
+    , defaultStoryBeat
+        |> withDescription "feetHurt"
+        |> withActions
+            [ ( "spillDrink", "spillDrink" )
+            , ( "__untitled__", "__untitled__" )
+            ]
+    )
+
+
+spillDrink : ( String, StoryBeat )
+spillDrink =
+    ( "spillDrink"
+    , defaultStoryBeat
+        |> withDescription "spillDrink"
+        |> withActions
+            [ ( "tryToKeepDancing", "tryToKeepDancing" )
+            , ( "takeABreak", "takeABreak" )
+            ]
+    )
+
+
+tryToKeepDancing : ( String, StoryBeat )
+tryToKeepDancing =
+    ( "tryToKeepDancing"
+    , defaultStoryBeat
+        |> withDescription "tryToKeepDancing"
+        |> withTimeUntil 8 "mehmetTakesABreakWithYou"
+    )
+
+
+takeABreak : ( String, StoryBeat )
+takeABreak =
+    ( "takeABreak"
+    , defaultStoryBeat
+        |> withDescription "takeABreak"
+        |> withTimeUntil 4 "chatWithMehmet"
+    )
+
+
+mehmetTakesABreakWithYou : ( String, StoryBeat )
+mehmetTakesABreakWithYou =
+    ( "mehmetTakesABreakWithYou"
+    , defaultStoryBeat
+        |> withDescription "mehmetTakesABreakWithYou"
+        |> withTimeUntil 4 "chatWithMehmet"
+    )
+
+
+chatWithMehmet : ( String, StoryBeat )
+chatWithMehmet =
+    ( "chatWithMehmet"
+    , defaultStoryBeat
+        |> withDescription "chatWithMehmet"
+        |> withActions [ ( "askAboutWallflower", "askAboutWallflower" ) ]
+    )
+
+
+askAboutWallflower : ( String, StoryBeat )
+askAboutWallflower =
+    ( "askAboutWallflower"
+    , defaultStoryBeat
+        |> withDescription "askAboutWallflower"
+        |> withActions
+            [ ( "avoidAndGoHome", "avoidAndGoHome" )
+            , ( "shouldHangOut", "shouldHangOut" )
+            ]
+    )
+
+
+shouldHangOut : ( String, StoryBeat )
+shouldHangOut =
+    ( "shouldHangOut"
+    , defaultStoryBeat
+        |> withDescription "shouldHangOut"
+        |> withActions
+            [ ( "hangOutNextWeek", "hangOutNextWeek" )
+            , ( "imBusy", "imBusy" )
+            ]
+    )
+
+
+hangOutNextWeek : ( String, StoryBeat )
+hangOutNextWeek =
+    ( "hangOutNextWeek"
+    , defaultStoryBeat
+        |> withDescription "hangOutNextWeek"
+        |> withTimeUntil 6 "simonCallsItANight"
+    )
+
+
+imBusy : ( String, StoryBeat )
+imBusy =
+    ( "imBusy"
+    , defaultStoryBeat
+        |> withDescription "imBusy"
+        |> withTimeUntil 8 "simonCallsItANight"
+    )
+
+
+simonCallsItANight : ( String, StoryBeat )
+simonCallsItANight =
+    ( "simonCallsItANight"
+    , defaultStoryBeat
+        |> withDescription "simonCallsItANight"
+        |> withActions [ ( "home", "home" ) ]
+    )
+
+
+avoidAndGoHome : ( String, StoryBeat )
+avoidAndGoHome =
+    ( "avoidAndGoHome"
+    , defaultStoryBeat
+        |> withDescription "avoidAndGoHome"
+        |> withActions [ ( "home", "home" ) ]
     )
 
 
@@ -1494,7 +1715,9 @@ hangBack : ( String, StoryBeat )
 hangBack =
     ( "hangBack"
     , defaultStoryBeat
+        |> withDescription "hangBack"
         |> withEnergyBoost 10
+        |> withTimeUntil 8 "readInterestingArticle"
     )
 
 
@@ -1502,15 +1725,123 @@ turnDownDrink : ( String, StoryBeat )
 turnDownDrink =
     ( "turnDownDrink"
     , defaultStoryBeat
+        |> withDescription "turnDownDrink"
+        |> withTimeUntil 8 "thirsty"
         |> withCanUsePhone
     )
 
 
-ignoredThem : ( String, StoryBeat )
-ignoredThem =
-    ( "ignoredThem"
+thirsty : ( String, StoryBeat )
+thirsty =
+    ( "thirsty"
     , defaultStoryBeat
-        |> withDescription "You ignored them."
-        |> withCanDrink
-        |> withCanUsePhone
+        |> withDescription "thirsty"
+        |> withActions
+            [ ( "getACarlsberg", "getACarlsberg" )
+            , ( "getARum", "getARum" )
+            ]
     )
+
+
+getACarlsberg : ( String, StoryBeat )
+getACarlsberg =
+    ( "getACarlsberg"
+    , defaultStoryBeat
+        |> withDescription "getACarlsberg"
+        |> withTimeUntil 8 "thinkAboutDancing"
+    )
+
+
+getARum : ( String, StoryBeat )
+getARum =
+    ( "getARum"
+    , defaultStoryBeat
+        |> withDescription "getARum"
+        |> withTimeUntil 8 "thinkAboutDancingWithRum"
+    )
+
+
+readInterestingArticle : ( String, StoryBeat )
+readInterestingArticle =
+    ( "readInterestingArticle"
+    , defaultStoryBeat
+        |> withDescription "readInterestingArticle"
+        |> withTimeUntil 4 "continueReadingArticle"
+    )
+
+
+continueReadingArticle : ( String, StoryBeat )
+continueReadingArticle =
+    ( "continueReadingArticle"
+    , defaultStoryBeat
+        |> withDescription "continueReadingArticle"
+        |> withActions
+            [ ( "finishReadingArticle", "finishReadingArticle" )
+            , ( "goDanceWithPolly", "goDanceWithPolly" )
+            ]
+    )
+
+
+finishReadingArticle : ( String, StoryBeat )
+finishReadingArticle =
+    ( "finishReadingArticle"
+    , defaultStoryBeat
+        |> withDescription "finishReadingArticle"
+        |> withTimeUntil 6 "lookAtFunnyPictures"
+    )
+
+
+lookAtFunnyPictures : ( String, StoryBeat )
+lookAtFunnyPictures =
+    ( "lookAtFunnyPictures"
+    , defaultStoryBeat
+        |> withDescription "lookAtFunnyPictures"
+        |> withTimeUntil 4 "continueLookingAtPictures"
+    )
+
+
+continueLookingAtPictures : ( String, StoryBeat )
+continueLookingAtPictures =
+    ( "continueLookingAtPictures"
+    , defaultStoryBeat
+        |> withDescription "continueLookingAtPictures"
+        |> withActions
+            [ ( "lookAtFunnyPictures", "lookAtFunnyPictures" )
+            , ( "simonAsksToDance", "simonAsksToDance" )
+            ]
+    )
+
+
+simonAsksToDance : ( String, StoryBeat )
+simonAsksToDance =
+    ( "simonAsksToDance"
+    , defaultStoryBeat
+        |> withDescription "simonAsksToDance"
+        |> withActions
+            [ ( "goDanceWithPolly", "goDanceWithPolly" )
+            , ( "getAnUberHome", "getAnUberHome" )
+            ]
+    )
+
+
+getAnUberHome : ( String, StoryBeat )
+getAnUberHome =
+    ( "getAnUberHome"
+    , defaultStoryBeat
+        |> withDescription "getAnUberHome"
+        |> withActions
+            [ ( "__untitled__", "__untitled__" )
+            , ( "home", "home" )
+            ]
+    )
+
+
+
+-- ignoredThem : ( String, StoryBeat )
+-- ignoredThem =
+--     ( "ignoredThem"
+--     , defaultStoryBeat
+--         |> withDescription "You ignored them."
+--         |> withCanDrink
+--         |> withCanUsePhone
+--     )

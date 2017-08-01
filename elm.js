@@ -10408,7 +10408,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 				danceOffset,
 				{
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'bottom', _1: '8vh'},
+					_0: {ctor: '_Tuple2', _0: 'bottom', _1: '18vh'},
 					_1: {
 						ctor: '::',
 						_0: {ctor: '_Tuple2', _0: 'left', _1: '-3vw'},
@@ -10427,7 +10427,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 					danceOffset,
 					{
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'bottom', _1: '5vh'},
+						_0: {ctor: '_Tuple2', _0: 'bottom', _1: '15vh'},
 						_1: {
 							ctor: '::',
 							_0: {ctor: '_Tuple2', _0: 'left', _1: '-6vw'},
@@ -10442,7 +10442,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 						danceOffset,
 						{
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'bottom', _1: '10vh'},
+							_0: {ctor: '_Tuple2', _0: 'bottom', _1: '20vh'},
 							_1: {
 								ctor: '::',
 								_0: {ctor: '_Tuple2', _0: 'left', _1: '19vw'},
@@ -10461,7 +10461,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 							danceOffset,
 							{
 								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'bottom', _1: '12vh'},
+								_0: {ctor: '_Tuple2', _0: 'bottom', _1: '22vh'},
 								_1: {
 									ctor: '::',
 									_0: {ctor: '_Tuple2', _0: 'left', _1: '10vw'},
@@ -10480,7 +10480,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 								danceOffset,
 								{
 									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'bottom', _1: '6vh'},
+									_0: {ctor: '_Tuple2', _0: 'bottom', _1: '16vh'},
 									_1: {
 										ctor: '::',
 										_0: {ctor: '_Tuple2', _0: 'left', _1: '14vw'},
@@ -10495,7 +10495,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 									danceOffset,
 									{
 										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'bottom', _1: '1vh'},
+										_0: {ctor: '_Tuple2', _0: 'bottom', _1: '11vh'},
 										_1: {
 											ctor: '::',
 											_0: {ctor: '_Tuple2', _0: 'left', _1: '38vw'},
@@ -10514,7 +10514,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 										danceOffset,
 										{
 											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'bottom', _1: '-1vh'},
+											_0: {ctor: '_Tuple2', _0: 'bottom', _1: '9vh'},
 											_1: {
 												ctor: '::',
 												_0: {ctor: '_Tuple2', _0: 'left', _1: '28vw'},
@@ -10533,7 +10533,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 											danceOffset,
 											{
 												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'bottom', _1: '-3vh'},
+												_0: {ctor: '_Tuple2', _0: 'bottom', _1: '7vh'},
 												_1: {
 													ctor: '::',
 													_0: {ctor: '_Tuple2', _0: 'left', _1: '30vw'},
@@ -10548,7 +10548,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 												danceOffset,
 												{
 													ctor: '::',
-													_0: {ctor: '_Tuple2', _0: 'bottom', _1: '16vh'},
+													_0: {ctor: '_Tuple2', _0: 'bottom', _1: '26vh'},
 													_1: {
 														ctor: '::',
 														_0: {ctor: '_Tuple2', _0: 'left', _1: '88vw'},
@@ -10567,7 +10567,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 													danceOffset,
 													{
 														ctor: '::',
-														_0: {ctor: '_Tuple2', _0: 'bottom', _1: '14vh'},
+														_0: {ctor: '_Tuple2', _0: 'bottom', _1: '24vh'},
 														_1: {
 															ctor: '::',
 															_0: {ctor: '_Tuple2', _0: 'left', _1: '92vw'},
@@ -10586,7 +10586,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 														danceOffset,
 														{
 															ctor: '::',
-															_0: {ctor: '_Tuple2', _0: 'bottom', _1: '7vh'},
+															_0: {ctor: '_Tuple2', _0: 'bottom', _1: '17vh'},
 															_1: {
 																ctor: '::',
 																_0: {ctor: '_Tuple2', _0: 'left', _1: '81vw'},
@@ -10605,7 +10605,7 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 															danceOffset,
 															{
 																ctor: '::',
-																_0: {ctor: '_Tuple2', _0: 'bottom', _1: '4vh'},
+																_0: {ctor: '_Tuple2', _0: 'bottom', _1: '14vh'},
 																_1: {
 																	ctor: '::',
 																	_0: {ctor: '_Tuple2', _0: 'left', _1: '87vw'},
@@ -10632,16 +10632,33 @@ var _user$project$Main$viewBackgroundPeople = function (danceOffset) {
 };
 var _user$project$Main$viewPolly = F2(
 	function (danceOffset, storyBeat) {
+		var _p0 = storyBeat.pollyPosition;
+		var x = _p0._0;
+		var y = _p0._1;
 		return A3(
 			_user$project$Main$viewPerson,
 			0.9,
 			danceOffset,
 			{
 				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'bottom', _1: '12vh'},
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'bottom',
+					_1: A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(y),
+						'vh')
+				},
 				_1: {
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'left', _1: '69vw'},
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'left',
+						_1: A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(x),
+							'vw')
+					},
 					_1: {
 						ctor: '::',
 						_0: {ctor: '_Tuple2', _0: 'background', _1: '#9C31CC'},
@@ -10652,9 +10669,9 @@ var _user$project$Main$viewPolly = F2(
 	});
 var _user$project$Main$viewMehmet = F2(
 	function (danceOffset, storyBeat) {
-		var _p0 = storyBeat.mehmetPosition;
-		var x = _p0._0;
-		var y = _p0._1;
+		var _p1 = storyBeat.mehmetPosition;
+		var x = _p1._0;
+		var y = _p1._1;
 		return A3(
 			_user$project$Main$viewPerson,
 			-0.4,
@@ -10689,9 +10706,9 @@ var _user$project$Main$viewMehmet = F2(
 	});
 var _user$project$Main$viewAnna = F2(
 	function (danceOffset, storyBeat) {
-		var _p1 = storyBeat.annaPosition;
-		var x = _p1._0;
-		var y = _p1._1;
+		var _p2 = storyBeat.annaPosition;
+		var x = _p2._0;
+		var y = _p2._1;
 		return A3(
 			_user$project$Main$viewPerson,
 			-0.3,
@@ -10726,9 +10743,9 @@ var _user$project$Main$viewAnna = F2(
 	});
 var _user$project$Main$viewSimon = F2(
 	function (danceOffset, storyBeat) {
-		var _p2 = storyBeat.simonPosition;
-		var x = _p2._0;
-		var y = _p2._1;
+		var _p3 = storyBeat.simonPosition;
+		var x = _p3._0;
+		var y = _p3._1;
 		return A3(
 			_user$project$Main$viewPerson,
 			0.8,
@@ -10775,7 +10792,96 @@ var _user$project$Main$viewDrunkenness = function (drunkenness) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$viewPhoneMessageIndicator = A2(
+var _user$project$Main$viewPhoneNetworkConnection = function () {
+	var bar = F3(
+		function (x, height, colour) {
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'bottom', _1: '0'},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'left',
+										_1: A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(x * 6),
+											'px')
+									},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'background', _1: colour},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'height',
+												_1: A2(
+													_elm_lang$core$Basics_ops['++'],
+													_elm_lang$core$Basics$toString(height * 4),
+													'px')
+											},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'width', _1: '4px'},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'});
+		});
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'top', _1: '49px'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'right', _1: '310px'},
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A3(bar, 1, 1, 'white'),
+			_1: {
+				ctor: '::',
+				_0: A3(bar, 2, 2, 'white'),
+				_1: {
+					ctor: '::',
+					_0: A3(bar, 3, 3, 'white'),
+					_1: {
+						ctor: '::',
+						_0: A3(bar, 4, 4, 'grey'),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+}();
+var _user$project$Main$viewPhoneDataConnection = A2(
 	_elm_lang$html$Html$div,
 	{
 		ctor: '::',
@@ -10785,11 +10891,19 @@ var _user$project$Main$viewPhoneMessageIndicator = A2(
 				_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
 				_1: {
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'top', _1: '3.1vh'},
+					_0: {ctor: '_Tuple2', _0: 'top', _1: '31px'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'right', _1: '18vw'},
-						_1: {ctor: '[]'}
+						_0: {ctor: '_Tuple2', _0: 'right', _1: '240px'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'Courier'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'font-size', _1: '1.3rem'},
+								_1: {ctor: '[]'}
+							}
+						}
 					}
 				}
 			}),
@@ -10797,11 +10911,7 @@ var _user$project$Main$viewPhoneMessageIndicator = A2(
 	},
 	{
 		ctor: '::',
-		_0: _capitalist$elm_octicons$Octicons$mail(
-			A2(
-				_capitalist$elm_octicons$Octicons$size,
-				36,
-				A2(_capitalist$elm_octicons$Octicons$color, 'white', _capitalist$elm_octicons$Octicons$defaultOptions))),
+		_0: _elm_lang$html$Html$text('4G'),
 		_1: {ctor: '[]'}
 	});
 var _user$project$Main$viewPhoneBattery = function (phoneBattery) {
@@ -10815,13 +10925,13 @@ var _user$project$Main$viewPhoneBattery = function (phoneBattery) {
 					_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'top', _1: '3vh'},
+						_0: {ctor: '_Tuple2', _0: 'top', _1: '25px'},
 						_1: {
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'right', _1: '2vw'},
+							_0: {ctor: '_Tuple2', _0: 'right', _1: '25px'},
 							_1: {
 								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'width', _1: '8vw'},
+								_0: {ctor: '_Tuple2', _0: 'width', _1: '120px'},
 								_1: {
 									ctor: '::',
 									_0: {ctor: '_Tuple2', _0: 'padding', _1: '2px'},
@@ -10856,7 +10966,7 @@ var _user$project$Main$viewPhoneBattery = function (phoneBattery) {
 								_0: {ctor: '_Tuple2', _0: 'border-radius', _1: '3px'},
 								_1: {
 									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'height', _1: '4vh'},
+									_0: {ctor: '_Tuple2', _0: 'height', _1: '25px'},
 									_1: {
 										ctor: '::',
 										_0: {
@@ -10937,11 +11047,19 @@ var _user$project$Main$viewPhoneClock = function (time) {
 					_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'top', _1: '3.1vh'},
+						_0: {ctor: '_Tuple2', _0: 'top', _1: '31px'},
 						_1: {
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'right', _1: '12vw'},
-							_1: {ctor: '[]'}
+							_0: {ctor: '_Tuple2', _0: 'right', _1: '160px'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'Courier'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '1.3rem'},
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				}),
@@ -10957,11 +11075,11 @@ var _user$project$Main$viewPhoneClock = function (time) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$minutesPerSecond = 0.5;
+var _user$project$Main$minutesPerSecond = 1;
 var _user$project$Main$maxEnergy = _elm_lang$core$Basics$floor(
-	_elm_lang$core$Basics$toFloat((_user$project$Main$hourFinish - _user$project$Main$hourStart) * 60) * _user$project$Main$minutesPerSecond);
+	_elm_lang$core$Basics$toFloat(((_user$project$Main$hourFinish - _user$project$Main$hourStart) - 1) * 60) * _user$project$Main$minutesPerSecond);
 var _user$project$Main$floorHeight = function (energy) {
-	return 56 - ((56 - 33) * (_elm_lang$core$Basics$toFloat(energy) / _elm_lang$core$Basics$toFloat(_user$project$Main$maxEnergy)));
+	return 66 - ((66 - 43) * (_elm_lang$core$Basics$toFloat(energy) / _elm_lang$core$Basics$toFloat(_user$project$Main$maxEnergy)));
 };
 var _user$project$Main$viewFloor = function (energy) {
 	return A2(
@@ -11026,9 +11144,9 @@ var _user$project$Main$viewFloor = function (energy) {
 };
 var _user$project$Main$viewPlayer = F2(
 	function (energy, storyBeat) {
-		var _p3 = storyBeat.playerPosition;
-		var x = _p3._0;
-		var customY = _p3._1;
+		var _p4 = storyBeat.playerPosition;
+		var x = _p4._0;
+		var customY = _p4._1;
 		var y = _elm_lang$core$Native_Utils.eq(customY, 0) ? A2(
 			F2(
 				function (x, y) {
@@ -11063,7 +11181,7 @@ var _user$project$Main$viewPlayer = F2(
 					},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'background', _1: '#000000'},
+						_0: {ctor: '_Tuple2', _0: 'background', _1: '#333333'},
 						_1: {ctor: '[]'}
 					}
 				}
@@ -11142,17 +11260,17 @@ var _user$project$Main$StoryBeat = function (a) {
 var _user$project$Main$defaultStoryBeat = _user$project$Main$StoryBeat('')(_elm_lang$core$Maybe$Nothing)(
 	{ctor: '[]'})(_elm_lang$core$Maybe$Nothing)(false)(false)(false)(0)(0)(_elm_lang$core$Maybe$Nothing)(
 	{ctor: '_Tuple2', _0: 29, _1: 0})(
-	{ctor: '_Tuple2', _0: 60, _1: 18})(
-	{ctor: '_Tuple2', _0: 56, _1: 13})(
-	{ctor: '_Tuple2', _0: 62, _1: 7})(
-	{ctor: '_Tuple2', _0: 69, _1: 12});
+	{ctor: '_Tuple2', _0: 60, _1: 28})(
+	{ctor: '_Tuple2', _0: 56, _1: 23})(
+	{ctor: '_Tuple2', _0: 62, _1: 17})(
+	{ctor: '_Tuple2', _0: 69, _1: 22});
 var _user$project$Main$arriveAtParty = {
 	ctor: '_Tuple2',
 	_0: 'arriveAtParty',
 	_1: A3(
 		_user$project$Main$withPlayerPosition,
-		2,
-		24,
+		3,
+		34,
 		A2(
 			_user$project$Main$withActions,
 			{
@@ -11196,7 +11314,7 @@ var _user$project$Main$simonOffersBeer = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		39,
-		26,
+		36,
 		A2(
 			_user$project$Main$withActions,
 			{
@@ -11212,7 +11330,7 @@ var _user$project$Main$takeTheBeer = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		39,
-		26,
+		36,
 		_user$project$Main$withCanDrink(
 			A2(
 				_user$project$Main$withDescription,
@@ -11313,30 +11431,26 @@ var _user$project$Main$simonIntroducesAnna = {
 		A3(
 			_user$project$Main$withAnnaPosition,
 			39,
-			26,
+			36,
 			A3(
 				_user$project$Main$withSimonPosition,
 				42,
-				30,
-				A3(
-					_user$project$Main$withTimeUntil,
-					8,
-					'ignoredThem',
-					A2(
-						_user$project$Main$withActions,
-						{
+				40,
+				A2(
+					_user$project$Main$withActions,
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: '\"Hey Anna, alright?\"', _1: 'heyAnna'},
+						_1: {
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: '\"Hey Anna, alright?\"', _1: 'heyAnna'},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: '\"Umm, hi.\"', _1: 'ummAnna'},
-								_1: {ctor: '[]'}
-							}
-						},
-						A2(
-							_user$project$Main$withDescription,
-							A2(_elm_lang$core$Basics_ops['++'], '\"Bruv, this is Anna,\" says Simon. \"Anna, this is my friend ', 'I was telling you about.\"'),
-							_user$project$Main$defaultStoryBeat))))))
+							_0: {ctor: '_Tuple2', _0: '\"Umm, hi.\"', _1: 'ummAnna'},
+							_1: {ctor: '[]'}
+						}
+					},
+					A2(
+						_user$project$Main$withDescription,
+						A2(_elm_lang$core$Basics_ops['++'], '\"Bruv, this is Anna,\" says Simon. \"Anna, this is my friend ', 'I was telling you about.\"'),
+						_user$project$Main$defaultStoryBeat)))))
 };
 var _user$project$Main$heyAnna = {
 	ctor: '_Tuple2',
@@ -11345,7 +11459,7 @@ var _user$project$Main$heyAnna = {
 		A3(
 			_user$project$Main$withAnnaPosition,
 			39,
-			26,
+			36,
 			A2(
 				_user$project$Main$withConfidenceBoost,
 				20,
@@ -11370,11 +11484,11 @@ var _user$project$Main$ummAnna = {
 			A3(
 				_user$project$Main$withAnnaPosition,
 				39,
-				26,
+				36,
 				A3(
 					_user$project$Main$withSimonPosition,
 					42,
-					30,
+					40,
 					A2(
 						_user$project$Main$withActions,
 						{
@@ -11394,11 +11508,11 @@ var _user$project$Main$danceWithAnna = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		68,
-		16,
+		26,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			58,
-			18,
+			28,
 			A3(
 				_user$project$Main$withTimeUntil,
 				8,
@@ -11412,11 +11526,11 @@ var _user$project$Main$tiredFromDancing = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		68,
-		16,
+		26,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			58,
-			18,
+			28,
 			A2(
 				_user$project$Main$withActions,
 				{
@@ -11436,11 +11550,11 @@ var _user$project$Main$keepDancing = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		68,
-		16,
+		26,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			58,
-			18,
+			28,
 			_user$project$Main$withCanDrink(
 				A3(
 					_user$project$Main$withTimeUntil,
@@ -11455,29 +11569,26 @@ var _user$project$Main$restFromDancing = {
 		_user$project$Main$withCanUsePhone(
 			A3(_user$project$Main$withTimeUntil, 8, 'mehmetIntroducesHimself', _user$project$Main$defaultStoryBeat)))
 };
+var _user$project$Main$avoidDanceWithAnna = {ctor: '_Tuple2', _0: 'avoidDanceWithAnna', _1: _user$project$Main$defaultStoryBeat};
 var _user$project$Main$mehmetIntroducesHimself = {
 	ctor: '_Tuple2',
 	_0: 'mehmetIntroducesHimself',
 	_1: A3(
 		_user$project$Main$withMehmetPosition,
 		38,
-		27,
-		A3(
-			_user$project$Main$withTimeUntil,
-			8,
-			'ignoredThem',
-			A2(
-				_user$project$Main$withActions,
-				{
+		37,
+		A2(
+			_user$project$Main$withActions,
+			{
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: '\"It\'s not really my thing.\"', _1: 'notMyThing'},
+				_1: {
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: '\"It\'s not really my thing.\"', _1: 'notMyThing'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: '\"Yeah man, it\'s fun.\"', _1: 'yeahItsFun'},
-						_1: {ctor: '[]'}
-					}
-				},
-				A2(_user$project$Main$withDescription, 'Mehmet jives over next to you, \"Dude, we\'ve got some sick moves out there.\"', _user$project$Main$defaultStoryBeat))))
+					_0: {ctor: '_Tuple2', _0: '\"Yeah man, it\'s fun.\"', _1: 'yeahItsFun'},
+					_1: {ctor: '[]'}
+				}
+			},
+			A2(_user$project$Main$withDescription, 'Mehmet jives over next to you, \"Dude, we\'ve got some sick moves out there.\"', _user$project$Main$defaultStoryBeat)))
 };
 var _user$project$Main$notMyThing = {
 	ctor: '_Tuple2',
@@ -11485,7 +11596,7 @@ var _user$project$Main$notMyThing = {
 	_1: A3(
 		_user$project$Main$withMehmetPosition,
 		42,
-		30,
+		40,
 		A2(
 			_user$project$Main$withActions,
 			{
@@ -11509,7 +11620,7 @@ var _user$project$Main$yeahItsFun = {
 	_1: A3(
 		_user$project$Main$withMehmetPosition,
 		38,
-		27,
+		37,
 		A2(
 			_user$project$Main$withConfidenceBoost,
 			5,
@@ -11529,15 +11640,16 @@ var _user$project$Main$yeahItsFun = {
 var _user$project$Main$askForACarlsberg = {
 	ctor: '_Tuple2',
 	_0: 'askForACarlsberg',
-	_1: A3(
-		_user$project$Main$withTimeUntil,
-		6,
-		'mehmetBringsCarlsberg',
+	_1: _user$project$Main$withCanUsePhone(
 		A3(
-			_user$project$Main$withMehmetPosition,
-			120,
-			18,
-			A2(_user$project$Main$withDescription, '\"Righto bruv, two ticks.\"', _user$project$Main$defaultStoryBeat)))
+			_user$project$Main$withTimeUntil,
+			6,
+			'mehmetBringsCarlsberg',
+			A3(
+				_user$project$Main$withMehmetPosition,
+				120,
+				28,
+				A2(_user$project$Main$withDescription, '\"Righto bruv, two ticks.\"', _user$project$Main$defaultStoryBeat))))
 };
 var _user$project$Main$mehmetBringsCarlsberg = {
 	ctor: '_Tuple2',
@@ -11545,7 +11657,7 @@ var _user$project$Main$mehmetBringsCarlsberg = {
 	_1: A3(
 		_user$project$Main$withMehmetPosition,
 		38,
-		27,
+		37,
 		A2(
 			_user$project$Main$withActions,
 			{
@@ -11591,11 +11703,11 @@ var _user$project$Main$askForARum = {
 		A3(
 			_user$project$Main$withPlayerPosition,
 			120,
-			24,
+			34,
 			A3(
 				_user$project$Main$withMehmetPosition,
 				120,
-				18,
+				28,
 				A2(
 					_user$project$Main$withConfidenceBoost,
 					5,
@@ -11629,11 +11741,11 @@ var _user$project$Main$goDanceWithPolly = {
 		A3(
 			_user$project$Main$withSimonPosition,
 			58,
-			18,
+			28,
 			A3(
 				_user$project$Main$withPlayerPosition,
 				68,
-				18,
+				28,
 				A3(_user$project$Main$withTimeUntil, 4, 'musicSwells', _user$project$Main$defaultStoryBeat))))
 };
 var _user$project$Main$musicSwells = {
@@ -11642,11 +11754,11 @@ var _user$project$Main$musicSwells = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		58,
-		18,
+		28,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			68,
-			18,
+			28,
 			A2(
 				_user$project$Main$withActions,
 				{
@@ -11662,11 +11774,11 @@ var _user$project$Main$tapFoot = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		58,
-		18,
+		28,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			68,
-			18,
+			28,
 			A3(
 				_user$project$Main$withTimeUntil,
 				6,
@@ -11685,11 +11797,11 @@ var _user$project$Main$pollyDances = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		58,
-		18,
+		28,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			68,
-			18,
+			28,
 			A2(
 				_user$project$Main$withEnergyBoost,
 				-5,
@@ -11716,11 +11828,11 @@ var _user$project$Main$copyPollysDanceMoves = {
 	_1: A3(
 		_user$project$Main$withSimonPosition,
 		58,
-		18,
+		28,
 		A3(
 			_user$project$Main$withPlayerPosition,
 			68,
-			18,
+			28,
 			A2(
 				_user$project$Main$withEnergyBoost,
 				-5,
@@ -11728,7 +11840,165 @@ var _user$project$Main$copyPollysDanceMoves = {
 					_user$project$Main$withConfidenceBoost,
 					5,
 					_user$project$Main$withCanDrink(
-						A2(_user$project$Main$withDescription, 'copyPollysDanceMoves', _user$project$Main$defaultStoryBeat))))))
+						A3(
+							_user$project$Main$withTimeUntil,
+							8,
+							'dadDancing',
+							A2(_user$project$Main$withDescription, 'copyPollysDanceMoves', _user$project$Main$defaultStoryBeat)))))))
+};
+var _user$project$Main$dadDancing = {
+	ctor: '_Tuple2',
+	_0: 'dadDancing',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		6,
+		'feetHurt',
+		A2(_user$project$Main$withDescription, 'dadDancing', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$feetHurt = {
+	ctor: '_Tuple2',
+	_0: 'feetHurt',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'spillDrink', _1: 'spillDrink'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: '__untitled__', _1: '__untitled__'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'feetHurt', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$spillDrink = {
+	ctor: '_Tuple2',
+	_0: 'spillDrink',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'tryToKeepDancing', _1: 'tryToKeepDancing'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'takeABreak', _1: 'takeABreak'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'spillDrink', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$tryToKeepDancing = {
+	ctor: '_Tuple2',
+	_0: 'tryToKeepDancing',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'mehmetTakesABreakWithYou',
+		A2(_user$project$Main$withDescription, 'tryToKeepDancing', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$takeABreak = {
+	ctor: '_Tuple2',
+	_0: 'takeABreak',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		4,
+		'chatWithMehmet',
+		A2(_user$project$Main$withDescription, 'takeABreak', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$mehmetTakesABreakWithYou = {
+	ctor: '_Tuple2',
+	_0: 'mehmetTakesABreakWithYou',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		4,
+		'chatWithMehmet',
+		A2(_user$project$Main$withDescription, 'mehmetTakesABreakWithYou', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$chatWithMehmet = {
+	ctor: '_Tuple2',
+	_0: 'chatWithMehmet',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'askAboutWallflower', _1: 'askAboutWallflower'},
+			_1: {ctor: '[]'}
+		},
+		A2(_user$project$Main$withDescription, 'chatWithMehmet', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$askAboutWallflower = {
+	ctor: '_Tuple2',
+	_0: 'askAboutWallflower',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'avoidAndGoHome', _1: 'avoidAndGoHome'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'shouldHangOut', _1: 'shouldHangOut'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'askAboutWallflower', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$shouldHangOut = {
+	ctor: '_Tuple2',
+	_0: 'shouldHangOut',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'hangOutNextWeek', _1: 'hangOutNextWeek'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'imBusy', _1: 'imBusy'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'shouldHangOut', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$hangOutNextWeek = {
+	ctor: '_Tuple2',
+	_0: 'hangOutNextWeek',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		6,
+		'simonCallsItANight',
+		A2(_user$project$Main$withDescription, 'hangOutNextWeek', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$imBusy = {
+	ctor: '_Tuple2',
+	_0: 'imBusy',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'simonCallsItANight',
+		A2(_user$project$Main$withDescription, 'imBusy', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$simonCallsItANight = {
+	ctor: '_Tuple2',
+	_0: 'simonCallsItANight',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'home', _1: 'home'},
+			_1: {ctor: '[]'}
+		},
+		A2(_user$project$Main$withDescription, 'simonCallsItANight', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$avoidAndGoHome = {
+	ctor: '_Tuple2',
+	_0: 'avoidAndGoHome',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'home', _1: 'home'},
+			_1: {ctor: '[]'}
+		},
+		A2(_user$project$Main$withDescription, 'avoidAndGoHome', _user$project$Main$defaultStoryBeat))
 };
 var _user$project$Main$restFromDancingWithPolly = {
 	ctor: '_Tuple2',
@@ -11746,19 +12016,149 @@ var _user$project$Main$restFromDancingWithPolly = {
 var _user$project$Main$hangBack = {
 	ctor: '_Tuple2',
 	_0: 'hangBack',
-	_1: A2(_user$project$Main$withEnergyBoost, 10, _user$project$Main$defaultStoryBeat)
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'readInterestingArticle',
+		A2(
+			_user$project$Main$withEnergyBoost,
+			10,
+			A2(_user$project$Main$withDescription, 'hangBack', _user$project$Main$defaultStoryBeat)))
 };
 var _user$project$Main$turnDownDrink = {
 	ctor: '_Tuple2',
 	_0: 'turnDownDrink',
-	_1: _user$project$Main$withCanUsePhone(_user$project$Main$defaultStoryBeat)
-};
-var _user$project$Main$ignoredThem = {
-	ctor: '_Tuple2',
-	_0: 'ignoredThem',
 	_1: _user$project$Main$withCanUsePhone(
-		_user$project$Main$withCanDrink(
-			A2(_user$project$Main$withDescription, 'You ignored them.', _user$project$Main$defaultStoryBeat)))
+		A3(
+			_user$project$Main$withTimeUntil,
+			8,
+			'thirsty',
+			A2(_user$project$Main$withDescription, 'turnDownDrink', _user$project$Main$defaultStoryBeat)))
+};
+var _user$project$Main$thirsty = {
+	ctor: '_Tuple2',
+	_0: 'thirsty',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'getACarlsberg', _1: 'getACarlsberg'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'getARum', _1: 'getARum'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'thirsty', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$getACarlsberg = {
+	ctor: '_Tuple2',
+	_0: 'getACarlsberg',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'thinkAboutDancing',
+		A2(_user$project$Main$withDescription, 'getACarlsberg', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$getARum = {
+	ctor: '_Tuple2',
+	_0: 'getARum',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		8,
+		'thinkAboutDancingWithRum',
+		A2(_user$project$Main$withDescription, 'getARum', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$readInterestingArticle = {
+	ctor: '_Tuple2',
+	_0: 'readInterestingArticle',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		4,
+		'continueReadingArticle',
+		A2(_user$project$Main$withDescription, 'readInterestingArticle', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$continueReadingArticle = {
+	ctor: '_Tuple2',
+	_0: 'continueReadingArticle',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'finishReadingArticle', _1: 'finishReadingArticle'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'goDanceWithPolly', _1: 'goDanceWithPolly'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'continueReadingArticle', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$finishReadingArticle = {
+	ctor: '_Tuple2',
+	_0: 'finishReadingArticle',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		6,
+		'lookAtFunnyPictures',
+		A2(_user$project$Main$withDescription, 'finishReadingArticle', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$lookAtFunnyPictures = {
+	ctor: '_Tuple2',
+	_0: 'lookAtFunnyPictures',
+	_1: A3(
+		_user$project$Main$withTimeUntil,
+		4,
+		'continueLookingAtPictures',
+		A2(_user$project$Main$withDescription, 'lookAtFunnyPictures', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$continueLookingAtPictures = {
+	ctor: '_Tuple2',
+	_0: 'continueLookingAtPictures',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'lookAtFunnyPictures', _1: 'lookAtFunnyPictures'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'simonAsksToDance', _1: 'simonAsksToDance'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'continueLookingAtPictures', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$simonAsksToDance = {
+	ctor: '_Tuple2',
+	_0: 'simonAsksToDance',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'goDanceWithPolly', _1: 'goDanceWithPolly'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'getAnUberHome', _1: 'getAnUberHome'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'simonAsksToDance', _user$project$Main$defaultStoryBeat))
+};
+var _user$project$Main$getAnUberHome = {
+	ctor: '_Tuple2',
+	_0: 'getAnUberHome',
+	_1: A2(
+		_user$project$Main$withActions,
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: '__untitled__', _1: '__untitled__'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'home', _1: 'home'},
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(_user$project$Main$withDescription, 'getAnUberHome', _user$project$Main$defaultStoryBeat))
 };
 var _user$project$Main$Rum = {ctor: 'Rum'};
 var _user$project$Main$comeBackWithRum = {
@@ -11828,59 +12228,155 @@ var _user$project$Main$story = _elm_lang$core$Dict$fromList(
 																		_0: _user$project$Main$restFromDancing,
 																		_1: {
 																			ctor: '::',
-																			_0: _user$project$Main$mehmetIntroducesHimself,
+																			_0: _user$project$Main$avoidDanceWithAnna,
 																			_1: {
 																				ctor: '::',
-																				_0: _user$project$Main$notMyThing,
+																				_0: _user$project$Main$mehmetIntroducesHimself,
 																				_1: {
 																					ctor: '::',
-																					_0: _user$project$Main$yeahItsFun,
+																					_0: _user$project$Main$notMyThing,
 																					_1: {
 																						ctor: '::',
-																						_0: _user$project$Main$askForACarlsberg,
+																						_0: _user$project$Main$yeahItsFun,
 																						_1: {
 																							ctor: '::',
-																							_0: _user$project$Main$mehmetBringsCarlsberg,
+																							_0: _user$project$Main$askForACarlsberg,
 																							_1: {
 																								ctor: '::',
-																								_0: _user$project$Main$drinkYourCarlsberg,
+																								_0: _user$project$Main$mehmetBringsCarlsberg,
 																								_1: {
 																									ctor: '::',
-																									_0: _user$project$Main$thinkAboutDancing,
+																									_0: _user$project$Main$drinkYourCarlsberg,
 																									_1: {
 																										ctor: '::',
-																										_0: _user$project$Main$askForARum,
+																										_0: _user$project$Main$thinkAboutDancing,
 																										_1: {
 																											ctor: '::',
-																											_0: _user$project$Main$comeBackWithRum,
+																											_0: _user$project$Main$askForARum,
 																											_1: {
 																												ctor: '::',
-																												_0: _user$project$Main$thinkAboutDancingWithRum,
+																												_0: _user$project$Main$comeBackWithRum,
 																												_1: {
 																													ctor: '::',
-																													_0: _user$project$Main$turnDownDrink,
+																													_0: _user$project$Main$thinkAboutDancingWithRum,
 																													_1: {
 																														ctor: '::',
-																														_0: _user$project$Main$goDanceWithPolly,
+																														_0: _user$project$Main$turnDownDrink,
 																														_1: {
 																															ctor: '::',
-																															_0: _user$project$Main$musicSwells,
+																															_0: _user$project$Main$thirsty,
 																															_1: {
 																																ctor: '::',
-																																_0: _user$project$Main$tapFoot,
+																																_0: _user$project$Main$getACarlsberg,
 																																_1: {
 																																	ctor: '::',
-																																	_0: _user$project$Main$pollyDances,
+																																	_0: _user$project$Main$getARum,
 																																	_1: {
 																																		ctor: '::',
-																																		_0: _user$project$Main$copyPollysDanceMoves,
+																																		_0: _user$project$Main$goDanceWithPolly,
 																																		_1: {
 																																			ctor: '::',
-																																			_0: _user$project$Main$restFromDancingWithPolly,
+																																			_0: _user$project$Main$musicSwells,
 																																			_1: {
 																																				ctor: '::',
-																																				_0: _user$project$Main$hangBack,
-																																				_1: {ctor: '[]'}
+																																				_0: _user$project$Main$tapFoot,
+																																				_1: {
+																																					ctor: '::',
+																																					_0: _user$project$Main$pollyDances,
+																																					_1: {
+																																						ctor: '::',
+																																						_0: _user$project$Main$copyPollysDanceMoves,
+																																						_1: {
+																																							ctor: '::',
+																																							_0: _user$project$Main$restFromDancingWithPolly,
+																																							_1: {
+																																								ctor: '::',
+																																								_0: _user$project$Main$hangBack,
+																																								_1: {
+																																									ctor: '::',
+																																									_0: _user$project$Main$dadDancing,
+																																									_1: {
+																																										ctor: '::',
+																																										_0: _user$project$Main$feetHurt,
+																																										_1: {
+																																											ctor: '::',
+																																											_0: _user$project$Main$spillDrink,
+																																											_1: {
+																																												ctor: '::',
+																																												_0: _user$project$Main$tryToKeepDancing,
+																																												_1: {
+																																													ctor: '::',
+																																													_0: _user$project$Main$mehmetTakesABreakWithYou,
+																																													_1: {
+																																														ctor: '::',
+																																														_0: _user$project$Main$takeABreak,
+																																														_1: {
+																																															ctor: '::',
+																																															_0: _user$project$Main$chatWithMehmet,
+																																															_1: {
+																																																ctor: '::',
+																																																_0: _user$project$Main$askAboutWallflower,
+																																																_1: {
+																																																	ctor: '::',
+																																																	_0: _user$project$Main$avoidAndGoHome,
+																																																	_1: {
+																																																		ctor: '::',
+																																																		_0: _user$project$Main$shouldHangOut,
+																																																		_1: {
+																																																			ctor: '::',
+																																																			_0: _user$project$Main$hangOutNextWeek,
+																																																			_1: {
+																																																				ctor: '::',
+																																																				_0: _user$project$Main$imBusy,
+																																																				_1: {
+																																																					ctor: '::',
+																																																					_0: _user$project$Main$simonCallsItANight,
+																																																					_1: {
+																																																						ctor: '::',
+																																																						_0: _user$project$Main$readInterestingArticle,
+																																																						_1: {
+																																																							ctor: '::',
+																																																							_0: _user$project$Main$continueReadingArticle,
+																																																							_1: {
+																																																								ctor: '::',
+																																																								_0: _user$project$Main$finishReadingArticle,
+																																																								_1: {
+																																																									ctor: '::',
+																																																									_0: _user$project$Main$lookAtFunnyPictures,
+																																																									_1: {
+																																																										ctor: '::',
+																																																										_0: _user$project$Main$continueLookingAtPictures,
+																																																										_1: {
+																																																											ctor: '::',
+																																																											_0: _user$project$Main$simonAsksToDance,
+																																																											_1: {
+																																																												ctor: '::',
+																																																												_0: _user$project$Main$getAnUberHome,
+																																																												_1: {ctor: '[]'}
+																																																											}
+																																																										}
+																																																									}
+																																																								}
+																																																							}
+																																																						}
+																																																					}
+																																																				}
+																																																			}
+																																																		}
+																																																	}
+																																																}
+																																															}
+																																														}
+																																													}
+																																												}
+																																											}
+																																										}
+																																									}
+																																								}
+																																							}
+																																						}
+																																					}
+																																				}
 																																			}
 																																		}
 																																	}
@@ -11919,6 +12415,19 @@ var _user$project$Main$story = _elm_lang$core$Dict$fromList(
 var _user$project$Main$getStoryBeat = function (storyKey) {
 	return A2(_elm_lang$core$Dict$get, storyKey, _user$project$Main$story);
 };
+var _user$project$Main$getPlayerPosition = function (model) {
+	var maybeBeat = _user$project$Main$getStoryBeat(model.storyKey);
+	var _p5 = A3(
+		_elm_community$maybe_extra$Maybe_Extra$unwrap,
+		{ctor: '_Tuple2', _0: 29, _1: 0},
+		function (beat) {
+			return beat.playerPosition;
+		},
+		maybeBeat);
+	var x = _p5._0;
+	var y = _p5._1;
+	return {ctor: '_Tuple2', _0: x, _1: y};
+};
 var _user$project$Main$Beer = {ctor: 'Beer'};
 var _user$project$Main$init = {
 	ctor: '_Tuple2',
@@ -11937,8 +12446,8 @@ var _user$project$Main$UpdateDanceOffset = function (a) {
 var _user$project$Main$GoToStoryBeat = function (a) {
 	return {ctor: 'GoToStoryBeat', _0: a};
 };
-var _user$project$Main$viewStoryAction = function (_p4) {
-	var _p5 = _p4;
+var _user$project$Main$viewStoryAction = function (_p6) {
+	var _p7 = _p6;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -11960,14 +12469,14 @@ var _user$project$Main$viewStoryAction = function (_p4) {
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					_user$project$Main$GoToStoryBeat(_p5._1)),
+					_user$project$Main$GoToStoryBeat(_p7._1)),
 				_1: {ctor: '[]'}
 			}
 		},
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				A2(_elm_lang$core$Basics_ops['++'], '> ', _p5._0)),
+				A2(_elm_lang$core$Basics_ops['++'], '> ', _p7._0)),
 			_1: {ctor: '[]'}
 		});
 };
@@ -11983,9 +12492,9 @@ var _user$project$Main$viewStoryDescription = F2(
 			if (_elm_lang$core$Native_Utils.cmp(
 				_elm_lang$core$String$length(storyBeat.description),
 				0) > 0) {
-				var _p6 = maybeDescriptionTimer;
-				if (_p6.ctor === 'Just') {
-					return (_elm_lang$core$Native_Utils.cmp(_p6._0, 0) > 0) ? '0' : '-20vh';
+				var _p8 = maybeDescriptionTimer;
+				if (_p8.ctor === 'Just') {
+					return (_elm_lang$core$Native_Utils.cmp(_p8._0, 0) > 0) ? '0' : '-20vh';
 				} else {
 					return '0';
 				}
@@ -12063,21 +12572,21 @@ var _user$project$Main$update = F2(
 	function (msg, model) {
 		update:
 		while (true) {
-			var _p7 = msg;
-			switch (_p7.ctor) {
+			var _p9 = msg;
+			switch (_p9.ctor) {
 				case 'Tick':
 					var storyDescriptionTimer = function () {
-						var _p8 = model.storyDescriptionTimer;
-						if (_p8.ctor === 'Just') {
-							return _elm_lang$core$Maybe$Just(_p8._0 - 1);
+						var _p10 = model.storyDescriptionTimer;
+						if (_p10.ctor === 'Just') {
+							return _elm_lang$core$Maybe$Just(_p10._0 - 1);
 						} else {
 							return _elm_lang$core$Maybe$Nothing;
 						}
 					}();
 					var storyTimer = function () {
-						var _p9 = model.storyTimer;
-						if (_p9.ctor === 'Just') {
-							return _elm_lang$core$Maybe$Just(_p9._0 - 1);
+						var _p11 = model.storyTimer;
+						if (_p11.ctor === 'Just') {
+							return _elm_lang$core$Maybe$Just(_p11._0 - 1);
 						} else {
 							return _elm_lang$core$Maybe$Nothing;
 						}
@@ -12105,7 +12614,7 @@ var _user$project$Main$update = F2(
 				case 'UsePhone':
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{phoneBattery: model.phoneBattery - 1, phoneUsageTimer: 6});
+						{phoneBattery: model.phoneBattery - 2, phoneUsageTimer: 6});
 				case 'Drink':
 					var drunkIncrement = _elm_lang$core$Native_Utils.eq(model.drunkenness, 0) ? 1 : model.drunkenness;
 					var newModel = _elm_lang$core$Native_Utils.update(
@@ -12121,14 +12630,14 @@ var _user$project$Main$update = F2(
 						continue update;
 					}
 				case 'GoToStoryBeat':
-					var _p14 = _p7._0;
-					var maybeStoryBeat = _user$project$Main$getStoryBeat(_p14);
+					var _p16 = _p9._0;
+					var maybeStoryBeat = _user$project$Main$getStoryBeat(_p16);
 					var storyTimer = function () {
-						var _p10 = maybeStoryBeat;
-						if (_p10.ctor === 'Just') {
-							var _p11 = _p10._0.timeUntil;
-							if (_p11.ctor === 'Just') {
-								return _elm_lang$core$Maybe$Just(_p11._0._0);
+						var _p12 = maybeStoryBeat;
+						if (_p12.ctor === 'Just') {
+							var _p13 = _p12._0.timeUntil;
+							if (_p13.ctor === 'Just') {
+								return _elm_lang$core$Maybe$Just(_p13._0._0);
 							} else {
 								return _elm_lang$core$Maybe$Nothing;
 							}
@@ -12137,17 +12646,17 @@ var _user$project$Main$update = F2(
 						}
 					}();
 					var storyDescriptionTimer = function () {
-						var _p12 = maybeStoryBeat;
-						if (_p12.ctor === 'Just') {
-							return _p12._0.clearDescriptionAfter;
+						var _p14 = maybeStoryBeat;
+						if (_p14.ctor === 'Just') {
+							return _p14._0.clearDescriptionAfter;
 						} else {
 							return _elm_lang$core$Maybe$Nothing;
 						}
 					}();
 					var confidence = function () {
-						var _p13 = maybeStoryBeat;
-						if (_p13.ctor === 'Just') {
-							return model.confidence + _p13._0.confidenceBoost;
+						var _p15 = maybeStoryBeat;
+						if (_p15.ctor === 'Just') {
+							return model.confidence + _p15._0.confidenceBoost;
 						} else {
 							return model.confidence;
 						}
@@ -12174,19 +12683,19 @@ var _user$project$Main$update = F2(
 						maybeStoryBeat);
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{energy: energy, confidence: confidence, storyKey: _p14, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer, storyDrinkType: storyDrinkType});
+						{energy: energy, confidence: confidence, storyKey: _p16, storyTimer: storyTimer, storyDescriptionTimer: storyDescriptionTimer, storyDrinkType: storyDrinkType});
 				case 'UpdateDanceOffset':
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{danceOffset: _p7._0});
+						{danceOffset: _p9._0});
 				case 'UpdateDrunkOffsetX':
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{drunkOffsetX: _p7._0});
+						{drunkOffsetX: _p9._0});
 				default:
 					return _elm_lang$core$Native_Utils.update(
 						model,
-						{drunkOffsetY: _p7._0});
+						{drunkOffsetY: _p9._0});
 			}
 		}
 	});
@@ -12194,11 +12703,11 @@ var _user$project$Main$updateWithStoryTimer = F2(
 	function (msg, model) {
 		var newModel = A2(_user$project$Main$update, msg, model);
 		var unwrap = _elm_community$maybe_extra$Maybe_Extra$unwrap(newModel);
-		var applyNextStoryBeat = function (_p15) {
-			var _p16 = _p15;
+		var applyNextStoryBeat = function (_p17) {
+			var _p18 = _p17;
 			return A2(
 				_user$project$Main$update,
-				_user$project$Main$GoToStoryBeat(_p16._1),
+				_user$project$Main$GoToStoryBeat(_p18._1),
 				newModel);
 		};
 		var applyStoryBeat = function (storyBeat) {
@@ -12215,8 +12724,8 @@ var _user$project$Main$updateWithStoryTimer = F2(
 var _user$project$Main$updateWithCmds = F2(
 	function (msg, model) {
 		var newModel = A2(_user$project$Main$updateWithStoryTimer, msg, model);
-		var _p17 = msg;
-		switch (_p17.ctor) {
+		var _p19 = msg;
+		switch (_p19.ctor) {
 			case 'TickDance':
 				return {
 					ctor: '_Tuple2',
@@ -12266,8 +12775,8 @@ var _user$project$Main$viewDrink = F6(
 		var top = _elm_lang$core$Basics$toString(
 			20.0 + ((offsetY * _elm_lang$core$Basics$toFloat(drunkenness)) * 0.3));
 		var drinkText = function () {
-			var _p18 = drinkType;
-			if (_p18.ctor === 'Beer') {
+			var _p20 = drinkType;
+			if (_p20.ctor === 'Beer') {
 				return 'Drink some beer';
 			} else {
 				return 'Sip your rum';
@@ -12395,6 +12904,8 @@ var _user$project$Main$viewPhone = F5(
 			{ctor: '[]'});
 	});
 var _user$project$Main$view = function (model) {
+	var _p21 = {ctor: '_Tuple2', _0: 29, _1: 0};
+	var circleX = _p21._0;
 	var energyRatio = _elm_lang$core$Basics$toFloat(model.energy) / _elm_lang$core$Basics$toFloat(_user$project$Main$maxEnergy);
 	var scaleColourEnergy = F2(
 		function (start, min) {
@@ -12449,17 +12960,17 @@ var _user$project$Main$view = function (model) {
 						radialCenterB,
 						A2(_elm_lang$core$Basics_ops['++'], ',', radialCenterA))))));
 	var storyBeat = function () {
-		var _p19 = _user$project$Main$getStoryBeat(model.storyKey);
-		if (_p19.ctor === 'Just') {
-			return _p19._0;
+		var _p22 = _user$project$Main$getStoryBeat(model.storyKey);
+		if (_p22.ctor === 'Just') {
+			return _p22._0;
 		} else {
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Main',
 				{
-					start: {line: 127, column: 13},
-					end: {line: 132, column: 93}
+					start: {line: 142, column: 13},
+					end: {line: 147, column: 93}
 				},
-				_p19)(
+				_p22)(
 				A2(_elm_lang$core$Basics_ops['++'], 'Tried to load an invalid story beat — ', model.storyKey));
 		}
 	}();
@@ -12478,26 +12989,35 @@ var _user$project$Main$view = function (model) {
 							'radial-gradient(',
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								'circle at 33% 56%, ',
+								'circle at ',
 								A2(
 									_elm_lang$core$Basics_ops['++'],
-									'rgba(',
+									_elm_lang$core$Basics$toString(circleX + 4),
 									A2(
 										_elm_lang$core$Basics_ops['++'],
-										radialCenterRGBA,
+										'vw',
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											') 0, ',
+											' 33%, ',
 											A2(
 												_elm_lang$core$Basics_ops['++'],
 												'rgba(',
 												A2(
 													_elm_lang$core$Basics_ops['++'],
-													radialOuterRGBA,
+													radialCenterRGBA,
 													A2(
 														_elm_lang$core$Basics_ops['++'],
-														') ',
-														A2(_elm_lang$core$Basics_ops['++'], circleSize, '%)')))))))))
+														') 0, ',
+														A2(
+															_elm_lang$core$Basics_ops['++'],
+															'rgba(',
+															A2(
+																_elm_lang$core$Basics_ops['++'],
+																radialOuterRGBA,
+																A2(
+																	_elm_lang$core$Basics_ops['++'],
+																	') ',
+																	A2(_elm_lang$core$Basics_ops['++'], circleSize, '%)'))))))))))))
 					},
 					_1: {
 						ctor: '::',
@@ -12563,14 +13083,18 @@ var _user$project$Main$view = function (model) {
 																_0: _user$project$Main$viewPhoneBattery(model.phoneBattery),
 																_1: {
 																	ctor: '::',
-																	_0: _user$project$Main$viewPhoneMessageIndicator,
+																	_0: _user$project$Main$viewPhoneClock(model.time),
 																	_1: {
 																		ctor: '::',
-																		_0: _user$project$Main$viewPhoneClock(model.time),
+																		_0: _user$project$Main$viewPhoneDataConnection,
 																		_1: {
 																			ctor: '::',
-																			_0: A2(_user$project$Main$viewStoryDescription, model.storyDescriptionTimer, storyBeat),
-																			_1: {ctor: '[]'}
+																			_0: _user$project$Main$viewPhoneNetworkConnection,
+																			_1: {
+																				ctor: '::',
+																				_0: A2(_user$project$Main$viewStoryDescription, model.storyDescriptionTimer, storyBeat),
+																				_1: {ctor: '[]'}
+																			}
 																		}
 																	}
 																}
@@ -12617,7 +13141,7 @@ var _user$project$Main$subscriptions = function (model) {
 				_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second * 60, _user$project$Main$TickMinute),
 				_1: {
 					ctor: '::',
-					_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second * 6, _user$project$Main$TickConfidence),
+					_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second * 3, _user$project$Main$TickConfidence),
 					_1: {
 						ctor: '::',
 						_0: A2(_elm_lang$core$Time$every, _elm_lang$core$Time$millisecond * 200, _user$project$Main$TickDance),
