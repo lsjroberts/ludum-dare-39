@@ -4,6 +4,8 @@ _I did not complete this in time, but whatevs. It was fun to do and I may finish
 
 **Theme — Running Out Of Power**
 
+![screenshot](screenshot.png)
+
 ## Concept
 
 You are a wallflower at a friend's party. Your lift home is elsewhere in the house having fun. You are stuck here. Your energy is drained by interacting with other people. It is boosted by distracting yourself by doing stuff on your mobile phone, or drinking. Your phone is running out of power. And drinking makes it harder to concentrate. If you drink too much you'll be sick. If your phone runs out you'll have nothing to hide behind.
