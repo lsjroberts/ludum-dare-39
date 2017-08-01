@@ -1,5 +1,7 @@
 # Ludum Dare 39
 
+_I did not complete this in time, but whatevs. It was fun to do and I may finish it up soon._
+
 **Theme — Running Out Of Power**
 
 ## Concept
